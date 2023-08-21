@@ -400,7 +400,7 @@ MonoBehaviour:
   - {fileID: 225531091}
   - {fileID: 947022170}
   - {fileID: 1963185616}
-  asteroidPrefab: {fileID: 123937757447838456, guid: a97ec34df021b344487d4a1a0bf8989b, type: 3}
+  asteroidPrefab: {fileID: 5531429702174635596, guid: a97ec34df021b344487d4a1a0bf8989b, type: 3}
 --- !u!4 &745896513
 Transform:
   m_ObjectHideFlags: 0

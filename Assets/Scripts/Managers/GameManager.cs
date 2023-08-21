@@ -47,7 +47,7 @@ namespace Asteroids2
 
             while (gameState == GameState.Game)
             {
-                
+                //Asteroid asteroid = enemyFactory.Create(new Health(100));
             }
         }
     }
