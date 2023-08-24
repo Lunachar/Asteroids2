@@ -8,7 +8,7 @@ namespace Asteroids2
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private float bulletDestroyTime = 3f;
-        [SerializeField]private GameObject gameObject;
+        [SerializeField] private GameObject gameObject;
 
         private void Start()
          {

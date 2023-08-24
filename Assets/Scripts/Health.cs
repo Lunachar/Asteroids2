@@ -11,6 +11,11 @@
             currentHealth = maxHealth;
         }
 
+        public int GetCurrentHealth()
+        {
+            return currentHealth;
+        }
+
         public void TakeDamage(int damageAmount)
         {
             currentHealth -= damageAmount;

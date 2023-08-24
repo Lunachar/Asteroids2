@@ -8,6 +8,10 @@ namespace Asteroids2
         private Transform target;
         private Rigidbody2D _rb;
         public float asteroidDestroyTime;
+        public AsteroidHealthUI asteroidHealthUI;
+        private Health asteroidHealth;
+        
+        
 
         private void Start()
         {
@@ -16,6 +20,13 @@ namespace Asteroids2
             SetTarget();
             FaceTarget();
             Move();
+            asteroidHealthUI.SetAsteroidHealth(asteroidHealth);
+        }
+
+        private void Update()
+        {
+            asteroidHealthUI.UpdateHealthText();
+            Debug.Log("Asteroid health is:" + asteroidHealth);
         }
 
         private void FaceTarget()
