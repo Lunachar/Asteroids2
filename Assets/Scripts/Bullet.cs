@@ -15,12 +15,18 @@ namespace Asteroids2
              Destroy(gameObject, bulletDestroyTime);
          }
 
-        public IEnumerator RotateBullet(Rigidbody2D bullet)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            while (bullet != null && bullet.gameObject.activeSelf)
+            if (collision.gameObject.CompareTag("Asteroid"))
             {
-                bullet.MoveRotation(bullet.rotation + 200f * Time.deltaTime);
-                yield return null;
+                Asteroid asteroid = collision.gameObject.GetComponent<Asteroid>();
+                if (asteroid != null)
+                {
+                    asteroid.TakeDamage(10);
+                    Debug.Log("Damage 10");
+                }
+                
+                Destroy(gameObject);
             }
         }
     }

@@ -7,11 +7,22 @@ public abstract class Enemy : MonoBehaviour
 {
     public static IEnemyFactory Factory;
     public Health Health { get; protected set; }
+    public abstract int ScoreValue { get; }
 
     public abstract void SetTarget();
 
-    public void DependencyInjectHealth(Health hp)
+    public void TakeDamage(int damageAmount)
     {
-        Health = hp;
+        Health.TakeDamage(damageAmount);
+        if (Health.GetCurrentHealth() <= 0)
+        {
+            Die();
+            ScoreManager.AddScore(ScoreValue);
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

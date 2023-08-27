@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Asteroids2;
 using Unity.Mathematics;
 using UnityEngine;
@@ -28,6 +29,9 @@ namespace Player
         private float _horizontalInput;
         private float _verticalInput;
 
+        private bool _isShooting = false;
+        public float TimeBetweenShoots = 1f;
+
 
         private void Awake()
         {
@@ -38,6 +42,28 @@ namespace Player
         {
             _verticalInput = Input.GetAxis("Vertical");
             _horizontalInput = Input.GetAxis("Horizontal");
+
+            if (Input.GetMouseButton(0))
+            {
+                if (!_isShooting)
+                {
+                    _isShooting = true;
+                    StartCoroutine(ContinuousShooting());
+                }
+            }
+            else
+            {
+                _isShooting = false;
+            }
+        }
+
+        private IEnumerator ContinuousShooting()
+        {
+            while (_isShooting)
+            {
+                Shoot();
+                yield return new WaitForSeconds(TimeBetweenShoots);
+            }
         }
 
         public void Move()
@@ -79,22 +105,31 @@ namespace Player
 
         public void Shoot()
         {
-                if (_shootSide)
-                {
+            switch (_shootSide)
+            {
+                case true:
                     _bulletSpawnPoint = gun1;
                     _shootSide = false;
-                }
-                else
-                {
+                    break;
+                case false:
                     _bulletSpawnPoint = gun2;
                     _shootSide = true;
-                }
+                    break;
+            }
+                // if (_shootSide)
+                // {
+                //     _bulletSpawnPoint = gun1;
+                //     _shootSide = false;
+                // }
+                // else
+                // {
+                //     _bulletSpawnPoint = gun2;
+                //     _shootSide = true;
+                // }
 
                 var bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
                 bulletRb = bullet.GetComponent<Rigidbody2D>();
                 bulletRb.AddForce(_bulletSpawnPoint.up * bulletSpeed, ForceMode2D.Impulse);
-
-                StartCoroutine(gameObject.AddComponent<Bullet>().RotateBullet(bulletRb));
         }
     }
 }

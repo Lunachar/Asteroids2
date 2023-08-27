@@ -2,32 +2,26 @@
 {
     public class Health
     {
-        private int currentHealth;
-        private int maxHealth;
+        private int _currentHealth;
+        
 
-        public Health(int maxHealth)
+        public Health(int initialHealth)
         {
-            this.maxHealth = maxHealth;
-            currentHealth = maxHealth;
-        }
-
-        public int GetCurrentHealth()
-        {
-            return currentHealth;
+            _currentHealth = initialHealth;
         }
 
         public void TakeDamage(int damageAmount)
         {
-            currentHealth -= damageAmount;
-            if (currentHealth <= 0)
+            _currentHealth -= damageAmount;
+            if (_currentHealth < 0)
             {
-                Die();
+                _currentHealth = 0;
             }
         }
 
-        private void Die()
+        public int GetCurrentHealth()
         {
-            
+            return _currentHealth;
         }
     }
 }

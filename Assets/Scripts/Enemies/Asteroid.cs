@@ -10,8 +10,11 @@ namespace Asteroids2
         public float asteroidDestroyTime;
         public AsteroidHealthUI asteroidHealthUI;
         private Health asteroidHealth;
-        
-        
+
+        public float asteroidSpeed = 1f;
+
+        public override int ScoreValue => 100;
+
 
         private void Start()
         {
@@ -20,14 +23,15 @@ namespace Asteroids2
             SetTarget();
             FaceTarget();
             Move();
-            asteroidHealthUI.SetAsteroidHealth(asteroidHealth);
+            //asteroidHealthUI.SetAsteroidHealth(asteroidHealth);
         }
 
-        private void Update()
-        {
-            asteroidHealthUI.UpdateHealthText();
-            Debug.Log("Asteroid health is:" + asteroidHealth);
-        }
+        // private void Update()
+        // {
+        //     asteroidHealthUI.UpdateHealthText();
+        //     asteroidHealth.GetCurrentHealth();
+        //     
+        // }
 
         private void FaceTarget()
         {
@@ -48,7 +52,13 @@ namespace Asteroids2
             var asteroidPosition = transform.position;
             var playerPosition = target.position;
             var direction = playerPosition - asteroidPosition;
-            _rb.AddForce(direction, ForceMode2D.Impulse);
+            _rb.AddForce(direction.normalized * asteroidSpeed, ForceMode2D.Impulse);
+        }
+
+
+        public int CurrentHealth
+        {
+            get => asteroidHealth.GetCurrentHealth();
         }
     }
 }

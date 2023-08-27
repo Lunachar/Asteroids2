@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +9,16 @@ namespace Asteroids2
 {
     public class AsteroidHealthUI : MonoBehaviour
     {
-        public GameObject healthTextObject;
+        public TextMeshProUGUI healthTextObject;
+        public string healthText;
+        
         private Health asteroidHealth;
+        private Asteroid _asteroid;
 
-        private Text healthText;
 
         private void Start()
         {
-            healthText = healthTextObject.GetComponent<Text>();
+            healthText = healthTextObject.text;
         }
 
         public void SetAsteroidHealth(Health health)
@@ -28,8 +31,9 @@ namespace Asteroids2
         {
             if (healthText != null && asteroidHealth != null)
             {
-                healthText.text = asteroidHealth.GetCurrentHealth().ToString();
+                healthText = _asteroid.CurrentHealth.ToString();
             }
+            Debug.Log("Asteroid health is:" + healthText);
         }
     }
 }
