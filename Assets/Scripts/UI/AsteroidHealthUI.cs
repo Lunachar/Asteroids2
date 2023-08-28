@@ -21,11 +21,11 @@ namespace Asteroids2
             healthText = healthTextObject.text;
         }
 
-        public void SetAsteroidHealth(Health health)
-        {
-            asteroidHealth = health;
-            UpdateHealthText();
-        }
+        // public void SetAsteroidHealth(Health health)
+        // {
+        //     asteroidHealth = health;
+        //     UpdateHealthText();
+        // }
 
         public void UpdateHealthText()
         {

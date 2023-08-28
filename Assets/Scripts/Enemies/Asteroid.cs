@@ -26,12 +26,11 @@ namespace Asteroids2
             //asteroidHealthUI.SetAsteroidHealth(asteroidHealth);
         }
 
-        // private void Update()
-        // {
-        //     asteroidHealthUI.UpdateHealthText();
-        //     asteroidHealth.GetCurrentHealth();
-        //     
-        // }
+        private void Update()
+        {
+            asteroidHealthUI.UpdateHealthText();
+            
+        }
 
         private void FaceTarget()
         {
@@ -58,7 +57,7 @@ namespace Asteroids2
 
         public int CurrentHealth
         {
-            get => asteroidHealth.GetCurrentHealth();
+            get => Health.GetCurrentHealth();
         }
     }
 }

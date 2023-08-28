@@ -14,7 +14,7 @@ namespace Player
         public float Rotation => _rb.rotation;
 
         [SerializeField] private float _speed = 5f;
-        [SerializeField] private float _rotationSpeed = 20f;
+        //[SerializeField] private float _rotationSpeed = 20f;
 
         [SerializeField] private Transform gun1;
         [SerializeField] private Transform gun2;
@@ -24,7 +24,7 @@ namespace Player
         private bool _shootSide;
         private Transform _bulletSpawnPoint;
 
-        private float _rotationSmothness = 90f;
+        //private float _rotationSmothness = 90f;
 
         private float _horizontalInput;
         private float _verticalInput;

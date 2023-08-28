@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Asteroids2;
@@ -5,15 +6,21 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public static IEnemyFactory Factory;
-    public Health Health { get; protected set; }
+    public Health Health { get; set; }
     public abstract int ScoreValue { get; }
+
+    
+    private void Start()
+    {
+        Health = new Health(100);
+    }
 
     public abstract void SetTarget();
 
     public void TakeDamage(int damageAmount)
     {
-        Health.TakeDamage(damageAmount);
+        Debug.Log("take damage enemy:" + damageAmount);
+        Health.takeDamage(damageAmount);
         if (Health.GetCurrentHealth() <= 0)
         {
             Die();

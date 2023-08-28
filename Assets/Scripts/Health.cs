@@ -1,4 +1,6 @@
-﻿namespace Asteroids2
+﻿using UnityEngine;
+
+namespace Asteroids2
 {
     public class Health
     {
@@ -10,8 +12,9 @@
             _currentHealth = initialHealth;
         }
 
-        public void TakeDamage(int damageAmount)
+        public void takeDamage(int damageAmount)
         {
+            Debug.Log("take damage health" +damageAmount);
             _currentHealth -= damageAmount;
             if (_currentHealth < 0)
             {
