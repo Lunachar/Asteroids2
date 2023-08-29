@@ -2,26 +2,25 @@
 
 namespace Asteroids2
 {
-    // public class EnemyFactory : IEnemyFactory
-    // {
-    //     private Transform[] spawnPoints;
-    //
-    //     public EnemyFactory(Transform[] spawnPoints)
-    //     {
-    //         this.spawnPoints = spawnPoints;
-    //     }
-    //
-    //     public Enemy Create(Health hp)
-    //     {
-    //         int randomIndex = Random.Range(0, spawnPoints.Length);
-    //         Transform spawnPoint = spawnPoints[randomIndex];
-    //
-    //         Asteroid enemy = new Asteroid();
-    //         //enemy.DependencyInjectHealth(hp);
-    //
-    //         enemy.transform.position = spawnPoint.position;
-    //
-    //         return enemy;
-    //     }
-    // }
+    public class EnemyFactory : MonoBehaviour, IEnemyFactory
+    {
+        private Transform[] spawnPoints;
+        private GameObject enemyPrefab;
+    
+        public EnemyFactory(Transform[] spawnPoints, GameObject prefab)
+        {
+            this.spawnPoints = spawnPoints;
+            enemyPrefab = prefab;
+        }
+    
+        public Enemy CreateEnemy()
+        {
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            Transform spawnPoint = spawnPoints[randomIndex];
+            //enemyPrefab.transform.position = spawnPoint.position;
+
+            GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+            return enemyObject.GetComponent<Enemy>();
+        }
+    }
 }

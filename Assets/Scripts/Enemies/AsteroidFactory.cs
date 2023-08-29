@@ -5,11 +5,10 @@ namespace Asteroids2
     public class AsteroidFactory : IEnemyFactory
     {
         public GameObject asteroidPrefab;
-        public Enemy Create(Health hp)
+        public Enemy CreateEnemy()
         {
             GameObject asteroidObject = Object.Instantiate(asteroidPrefab);
             Asteroid asteroid = asteroidObject.GetComponent<Asteroid>();
-            asteroid.Health = hp;
             return asteroid;
         }
         

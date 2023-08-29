@@ -5,11 +5,11 @@ namespace Asteroids2
 {
     public class Asteroid : Enemy, IMove
     {
-        private Transform target;
+        private Health _asteroidHealth;
+        private Transform _target;
         private Rigidbody2D _rb;
         public float asteroidDestroyTime;
         public AsteroidHealthUI asteroidHealthUI;
-        private Health asteroidHealth;
 
         public float asteroidSpeed = 1f;
 
@@ -18,6 +18,7 @@ namespace Asteroids2
 
         private void Start()
         {
+            _asteroidHealth = new Health(100);
             Destroy(gameObject, asteroidDestroyTime);
             _rb = GetComponent<Rigidbody2D>();
             SetTarget();
@@ -34,30 +35,38 @@ namespace Asteroids2
 
         private void FaceTarget()
         {
-            Vector2 direction = target.position - transform.position;
+            Vector2 direction = _target.position - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _rb.rotation = angle;
         }
 
         public override void SetTarget()
         {
-            target = GameObject.FindWithTag("Player").GetComponent<Transform>();
-            Debug.Log("1Target is:" + target);
+            _target = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            Debug.Log("1Target is:" + _target);
         }
 
         public void Move()
         {
-            Debug.Log("2Target is:" + target);
+            Debug.Log("2Target is:" + _target);
             var asteroidPosition = transform.position;
-            var playerPosition = target.position;
+            var playerPosition = _target.position;
             var direction = playerPosition - asteroidPosition;
             _rb.AddForce(direction.normalized * asteroidSpeed, ForceMode2D.Impulse);
         }
-
-
-        public int CurrentHealth
+        
+        public override void TakeDamage(int damageAmount)
         {
-            get => Health.GetCurrentHealth();
+            Debug.Log("take damage enemy:" + damageAmount);
+            _asteroidHealth.takeDamage(damageAmount);
+            if (_asteroidHealth.GetCurrentHealth() <= 0)
+            {
+                Die();
+                ScoreManager.AddScore(ScoreValue);
+            }
         }
+
+
+        public int CurrentHealth => _asteroidHealth.GetCurrentHealth();
     }
 }
