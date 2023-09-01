@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Asteroids2
 {
@@ -8,18 +9,32 @@ namespace Asteroids2
         private Health _asteroidHealth;
         private Transform _target;
         private Rigidbody2D _rb;
-        public float asteroidDestroyTime;
+        private float _asteroidDestroyTime;
+        private float _startTime;
+        
         public AsteroidHealthUI asteroidHealthUI;
-
         public float asteroidSpeed = 1f;
-
         public override int ScoreValue => 100;
+        //[Serializable] public class AsteroidDestroyedEvent : UnityEvent<Asteroid> { }
+
+        //[SerializeField] private Asteroid asteroid;
+        //[SerializeField] private EnemyManager enemyManager;
+
+        public delegate void AsteroidDestroyedCallback();
+
+        public static event AsteroidDestroyedCallback AsteroidDestroyed;
+
+        public event AsteroidDestroyedCallback AsDes;
+            
 
 
         private void Start()
         {
+            _startTime = Time.time;
             _asteroidHealth = new Health(100);
-            Destroy(gameObject, asteroidDestroyTime);
+            // Destroy(gameObject, _asteroidDestroyTime);
+            // asteroid.onDestroy.AddListener(enemyManager.IsEnemyOnScene());
+            // Destroy();
             _rb = GetComponent<Rigidbody2D>();
             SetTarget();
             FaceTarget();
@@ -31,6 +46,17 @@ namespace Asteroids2
         {
             asteroidHealthUI.UpdateHealthText();
             
+            float currentTime = Time.time;
+            float elapsedTime = currentTime - _startTime;
+
+            if (elapsedTime >= 6f)
+            {
+                Destroy(gameObject);
+                if (AsDes != null)
+                {
+                    AsDes();
+                }
+            }
         }
 
         private void FaceTarget()
@@ -62,9 +88,18 @@ namespace Asteroids2
             if (_asteroidHealth.GetCurrentHealth() <= 0)
             {
                 Die();
+                AsteroidFactory.SetAsteroidSpawned(false);
                 ScoreManager.AddScore(ScoreValue);
             }
         }
+
+        // public void Destroy()
+        // {
+        //     Destroy(gameObject);
+        //     onDestroy.Invoke(this);
+        //     onDestroy.RemoveAllListeners();
+        //     EnemyManager.Instance.IsEnemyOnScene();
+        // }
 
 
         public int CurrentHealth => _asteroidHealth.GetCurrentHealth();
