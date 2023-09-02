@@ -17,6 +17,6 @@ public abstract class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
-        EnemyManager.Instance.IsEnemyOnScene();
+        EnemyManager.IsEnemyOnScene();
     }
 }

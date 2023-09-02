@@ -13,8 +13,8 @@ namespace Asteroids2
         public EnemyFactory enemyFactory;
         public static EnemyManager Instance { get; private set; }
 
-        private bool _isEnemyOnScene = false;
-
+        private static bool _isEnemyOnScene = false;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -29,7 +29,6 @@ namespace Asteroids2
 
         private void Start()
         {
-            Asteroid.AsteroidDestroyedCallback.AsDes += IsEnemyOnScene;
             enemyFactory = gameObject.AddComponent<EnemyFactory>();
             enemyFactory.Initialize(spawnPoints, enemyPrefab);
         }
@@ -53,7 +52,7 @@ namespace Asteroids2
             }
         }
 
-        public void IsEnemyOnScene()
+        public static void IsEnemyOnScene()
         {
             _isEnemyOnScene = false;
         }

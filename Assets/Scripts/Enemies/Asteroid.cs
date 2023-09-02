@@ -4,27 +4,40 @@ using UnityEngine.Events;
 
 namespace Asteroids2
 {
+    delegate void AsteroidDestroyedCallback();
     public class Asteroid : Enemy, IMove
     {
-        private Health _asteroidHealth;
-        private Transform _target;
-        private Rigidbody2D _rb;
-        private float _asteroidDestroyTime;
-        private float _startTime;
         
+
+        private Health _asteroidHealth;
+
+        private Transform _target;
+
+        private Rigidbody2D _rb;
+
+        private float _asteroidDestroyTime;
+
+        private float _startTime;
+
         public AsteroidHealthUI asteroidHealthUI;
+
         public float asteroidSpeed = 1f;
+
         public override int ScoreValue => 100;
+
+
         //[Serializable] public class AsteroidDestroyedEvent : UnityEvent<Asteroid> { }
 
+
         //[SerializeField] private Asteroid asteroid;
+
         //[SerializeField] private EnemyManager enemyManager;
+        private readonly AsteroidDestroyedCallback _asteroidDestroyed = EnemyManager.IsEnemyOnScene;
 
-        public delegate void AsteroidDestroyedCallback();
 
-        public static event AsteroidDestroyedCallback AsteroidDestroyed;
+        //public static event AsteroidDestroyedCallback AsteroidDestroyed;
 
-        public event AsteroidDestroyedCallback AsDes;
+        //event AsteroidDestroyedCallback AsDes;
             
 
 
@@ -39,6 +52,7 @@ namespace Asteroids2
             SetTarget();
             FaceTarget();
             Move();
+            
             //asteroidHealthUI.SetAsteroidHealth(asteroidHealth);
         }
 
@@ -51,10 +65,10 @@ namespace Asteroids2
 
             if (elapsedTime >= 6f)
             {
-                Destroy(gameObject);
-                if (AsDes != null)
+                //Destroy(gameObject);
+                if (_asteroidDestroyed != null)
                 {
-                    AsDes();
+                    Destroy(_asteroidDestroyed);
                 }
             }
         }
@@ -93,13 +107,12 @@ namespace Asteroids2
             }
         }
 
-        // public void Destroy()
-        // {
-        //     Destroy(gameObject);
-        //     onDestroy.Invoke(this);
-        //     onDestroy.RemoveAllListeners();
-        //     EnemyManager.Instance.IsEnemyOnScene();
-        // }
+        void Destroy(AsteroidDestroyedCallback del)
+        {
+            Destroy(gameObject);
+            
+            EnemyManager.IsEnemyOnScene();
+        }
 
 
         public int CurrentHealth => _asteroidHealth.GetCurrentHealth();

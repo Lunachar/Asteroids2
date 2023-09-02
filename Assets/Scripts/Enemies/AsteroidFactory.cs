@@ -8,7 +8,7 @@ namespace Asteroids2
         private static bool _isAsteroidSpawned;
         public override Enemy CreateEnemy()
         {
-            EnemyManager.Instance.IsEnemyOnScene();
+            EnemyManager.IsEnemyOnScene();
             GameObject asteroidObject = Instantiate(asteroidPrefab);
             
             Debug.Log("Asteroid spawned.");
