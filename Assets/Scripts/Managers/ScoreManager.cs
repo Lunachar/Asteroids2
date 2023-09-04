@@ -6,20 +6,22 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public Text text;
-    private static int score = 0;
+    public Text text;         // Reference to the UI text element for displaying the score
+    private static int score = 0;  // Static variable to store the player's score
 
     public void Update()
     {
+        // Update the UI text element to display the current score
         text.text = $"Score: " + GetScore();
     }
 
-
+    // Add points to the player's score
     public static void AddScore(int points)
     {
         score += points;
     }
 
+    // Get the current player's score
     public static int GetScore()
     {
         return score;

@@ -7,31 +7,34 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
+    
+
     public class PlayerModel : MonoBehaviour, IMove, IRotation, IShoot
     {
         private Rigidbody2D _rb;
-        public Vector2 Position => _rb.position;
-        public float Rotation => _rb.rotation;
+        public static event Action OnScreenEdgeCollision;
+        public Vector2 Position => _rb.position;  // Player's current position
+        public float Rotation => _rb.rotation;    // Player's current rotation angle
 
-        [SerializeField] private float _speed = 5f;
-        //[SerializeField] private float _rotationSpeed = 20f;
+        [SerializeField] private float _speed = 5f;           // Movement speed of the player
+        //[SerializeField] private float _rotationSpeed = 20f;  // Rotation speed of the player
 
-        [SerializeField] private Transform gun1;
-        [SerializeField] private Transform gun2;
-        [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private Rigidbody2D bulletRb;
-        [SerializeField] private float bulletSpeed = 1f;
-        private bool _shootSide;
-        private Transform _bulletSpawnPoint;
+        [SerializeField] private Transform gun1;               // Reference to the first gun
+        [SerializeField] private Transform gun2;               // Reference to the second gun
+        [SerializeField] private GameObject bulletPrefab;      // Prefab of the bullet
+        [SerializeField] private Rigidbody2D bulletRb;         // Rigidbody of the bullet
+        [SerializeField] private float bulletSpeed = 1f;       // Speed of the bullets
+        private bool _shootSide;                               // Tracks which gun to use for shooting
+        private Transform _bulletSpawnPoint;                    // Reference to the spawn point of bullets
 
-        //private float _rotationSmothness = 90f;
+        private float _horizontalInput;                         // Input for horizontal movement
+        private float _verticalInput;                           // Input for vertical movement
 
-        private float _horizontalInput;
-        private float _verticalInput;
+        private bool _isShooting = false;                      // Tracks if the player is currently shooting
+        public float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
 
-        private bool _isShooting = false;
-        public float TimeBetweenShoots = 1f;
-
+        private AudioSource _audioSource;
+        
 
         private void Awake()
         {
@@ -40,8 +43,8 @@ namespace Player
 
         private void Update()
         {
-            _verticalInput = Input.GetAxis("Vertical");
-            _horizontalInput = Input.GetAxis("Horizontal");
+            _verticalInput = Input.GetAxis("Vertical");   // Get vertical input (e.g., W, S, Up, Down)
+            _horizontalInput = Input.GetAxis("Horizontal"); // Get horizontal input (e.g., A, D, Left, Right)
 
             if (Input.GetMouseButton(0))
             {
@@ -55,32 +58,32 @@ namespace Player
             {
                 _isShooting = false;
             }
+
+            CheckScreenEdgeCollision();
         }
 
         private IEnumerator ContinuousShooting()
         {
             while (_isShooting)
             {
-                Shoot();
-                yield return new WaitForSeconds(TimeBetweenShoots);
+                Shoot(); // Trigger shooting
+                yield return new WaitForSeconds(timeBetweenShoots); // Delay between shots
             }
         }
 
         public void Move()
         {
+            // Calculate movement direction based on input and apply force to the player
             Vector2 movement = new Vector2(_horizontalInput, _verticalInput);
             _rb.AddForce(movement * _speed, ForceMode2D.Impulse);
 
             if (Camera.main == null) return;
-            float minX = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
-            float maxX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
-            float minY = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
-            float maxY = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y;
 
             var position2 = transform.position;
+            CalculateScreenBounds(out var minX, out var maxX, out var minY, out var maxY);
             float clampedX = Mathf.Clamp(position2.x, minX, maxX);
             float clampedY = Mathf.Clamp(position2.y, minY, maxY);
-            
+
             Vector3 screenBounds = new Vector2(clampedX, clampedY);
             Vector2 direction = screenBounds - position2;
 
@@ -89,22 +92,23 @@ namespace Player
 
         public void Rotate()
         {
+            // Rotate the player to face the mouse cursor
             _rb.rotation = GetRotationAngle();
         }
+
         public float GetRotationAngle()
         {
-            
+            // Calculate the angle to rotate the player towards the mouse cursor
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var playerPosition = transform.position;
-            //var direction = Zombie.position - playerPosition;
             var direction = mousePosition - playerPosition;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             return angle;
         }
 
-
         public void Shoot()
         {
+            // Determine which gun to use for shooting
             switch (_shootSide)
             {
                 case true:
@@ -116,20 +120,30 @@ namespace Player
                     _shootSide = true;
                     break;
             }
-                // if (_shootSide)
-                // {
-                //     _bulletSpawnPoint = gun1;
-                //     _shootSide = false;
-                // }
-                // else
-                // {
-                //     _bulletSpawnPoint = gun2;
-                //     _shootSide = true;
-                // }
 
-                var bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
-                bulletRb = bullet.GetComponent<Rigidbody2D>();
-                bulletRb.AddForce(_bulletSpawnPoint.up * bulletSpeed, ForceMode2D.Impulse);
+            // Create a bullet instance and shoot it
+            var bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            bulletRb = bullet.GetComponent<Rigidbody2D>();
+            bulletRb.AddForce(_bulletSpawnPoint.up * bulletSpeed, ForceMode2D.Impulse);
+        }
+
+        private void CalculateScreenBounds(out float minX, out float maxX, out float minY, out float maxY)
+        {
+            minX = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
+            maxX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+            minY = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
+            maxY = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y;
+        }
+
+        private void CheckScreenEdgeCollision()
+        {
+            Vector2 position = _rb.position;
+            
+            CalculateScreenBounds(out var minX, out var maxX, out var minY, out var maxY);
+            if (position.x <= minX || position.x >= maxX || position.y <= minY || position.y >= maxY)
+            {
+                OnScreenEdgeCollision?.Invoke();
+            }
         }
     }
 }

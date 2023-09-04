@@ -6,11 +6,12 @@ namespace Asteroids2
 {
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private float bulletDestroyTime = 3f;
-        [SerializeField] private int damageAmount = 10;
+        [SerializeField] private float bulletDestroyTime = 3f; // Time after which the bullet is destroyed
+        [SerializeField] private int damageAmount = 10;       // Amount of damage the bullet deals
 
         private void Start()
         {
+            // Destroy the bullet game object after a specified time
             Destroy(gameObject, bulletDestroyTime);
         }
 
@@ -19,9 +20,11 @@ namespace Asteroids2
             Debug.Log("OnTriggerEnter +");
             if (col.gameObject.CompareTag("Asteroid"))
             {
+                // Check if the collided object is tagged as "Asteroid"
                 Asteroid asteroid = col.gameObject.GetComponent<Asteroid>();
                 if (asteroid != null)
                 {
+                    // If an Asteroid component is found, apply damage to it
                     asteroid.TakeDamage(damageAmount);
                     Debug.Log("Damage 10");
                 }
@@ -29,7 +32,8 @@ namespace Asteroids2
                 {
                     Debug.Log("Asteroid not found!");
                 }
-                
+
+                // Destroy the bullet game object on collision with an asteroid
                 Destroy(gameObject);
             }
         }

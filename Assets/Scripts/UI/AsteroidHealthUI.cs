@@ -16,7 +16,7 @@ namespace Asteroids2
         private Asteroid _asteroid;
 
 
-        private void Start()
+        private void Update()
         {
             healthText = healthTextObject.text;
         }

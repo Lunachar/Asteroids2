@@ -5,38 +5,40 @@ using UnityEngine.SceneManagement;
 
 namespace Asteroids2
 {
-    public class GameManager:MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        private GameState gameState;
+        private GameState _gameState;  // Current game state
 
-        private int _playerScore;
-        private int _playerHp;
-        private float _asteroidGamePlay;
-        private float _barrelGamePlay;
+        private int _playerScore;      // Player's score
+        private int _playerHp;         // Player's health points
+        private float _asteroidGamePlay; // Duration of asteroid gameplay
+        private float _barrelGamePlay;   // Duration of barrel gameplay
 
         private void Start()
         {
-            gameState = GameState.Start;
-            SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Additive);
+            _gameState = GameState.Start;  // Set the initial game state to "Start"
+            SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Additive);  // Load the main menu scene
 
-            StartCoroutine(SpawnAsteroids());
+            StartCoroutine(SpawnAsteroids()); // Start spawning asteroids
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (gameState == GameState.Game)
+                if (_gameState == GameState.Game)
                 {
-                    // show settings menu
+                    // Player pressed Escape during gameplay
+                    // Show settings menu by loading the SettingsScene
                     SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
-                    gameState = GameState.None;
+                    _gameState = GameState.None; // Set game state to "None" (paused)
                 }
-                else if (gameState == GameState.None)
+                else if (_gameState == GameState.None)
                 {
-                    // back in the game
+                    // Player pressed Escape while in the settings menu
+                    // Return to the game by unloading the SettingsScene
                     SceneManager.UnloadSceneAsync("SettingsScene");
-                    gameState = GameState.Game;
+                    _gameState = GameState.Game; // Set game state back to "Game"
                 }
             }
         }
@@ -45,9 +47,9 @@ namespace Asteroids2
         {
             yield return new WaitForSeconds(_asteroidGamePlay);
 
-            while (gameState == GameState.Game)
+            while (_gameState == GameState.Game)
             {
-                //Asteroid asteroid = enemyFactory.Create(new Health(100));
+               
             }
         }
     }
