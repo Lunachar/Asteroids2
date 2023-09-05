@@ -33,7 +33,7 @@ namespace Asteroids2
             {
                 healthText = _asteroid.CurrentHealth.ToString();
             }
-            Debug.Log("Asteroid health is:" + healthText);
+            //Debug.Log("Asteroid health is:" + healthText);
         }
     }
 }

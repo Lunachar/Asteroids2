@@ -37,13 +37,33 @@ namespace Asteroids2
 
         private void Update()
         {
-            if (!_isEnemyOnScene && ScoreManager.GetScore() <= 300)
+            if (!_isEnemyOnScene & ScoreManager.GetScore() < 400)
             {
                 // Check if it's time to spawn a new enemy based on the score
                 AsteroidFactory asteroidFactory = enemyFactory as AsteroidFactory;
                 if (asteroidFactory != null)
                 {
                     asteroidFactory.asteroidPrefab = enemyPrefab;
+                }
+
+                // Randomly select a spawn point
+                int randomIndex = Random.Range(0, spawnPoints.Length);
+                Transform spawnPoint = this.spawnPoints[randomIndex];
+
+                // Create a new enemy and set its position to the chosen spawn point
+                Enemy enemy = enemyFactory.CreateEnemy();
+                enemy.transform.position = spawnPoint.position;
+
+                _isEnemyOnScene = true; // Mark that an enemy is on the scene
+            }
+            else if (!_isEnemyOnScene & (ScoreManager.GetScore() >=400 & ScoreManager.GetScore() < 1200))
+            {
+                Debug.Log("Barrels!");
+                // Check if it's time to spawn a new enemy based on the score
+                BarrelFactory barrelFactory = enemyFactory as BarrelFactory;
+                if (barrelFactory != null)
+                {
+                    barrelFactory.barrelPrefab = enemyPrefab;
                 }
 
                 // Randomly select a spawn point

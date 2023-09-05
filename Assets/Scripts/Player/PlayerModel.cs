@@ -13,6 +13,8 @@ namespace Player
     {
         private Rigidbody2D _rb;
         public static event Action OnScreenEdgeCollision;
+        public static event Action PlayerGunShoot;
+        
         public Vector2 Position => _rb.position;  // Player's current position
         public float Rotation => _rb.rotation;    // Player's current rotation angle
 
@@ -33,8 +35,6 @@ namespace Player
         private bool _isShooting = false;                      // Tracks if the player is currently shooting
         public float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
 
-        private AudioSource _audioSource;
-        
 
         private void Awake()
         {
@@ -43,6 +43,7 @@ namespace Player
 
         private void Update()
         {
+            CheckScreenEdgeCollision();
             _verticalInput = Input.GetAxis("Vertical");   // Get vertical input (e.g., W, S, Up, Down)
             _horizontalInput = Input.GetAxis("Horizontal"); // Get horizontal input (e.g., A, D, Left, Right)
 
@@ -58,8 +59,6 @@ namespace Player
             {
                 _isShooting = false;
             }
-
-            CheckScreenEdgeCollision();
         }
 
         private IEnumerator ContinuousShooting()
@@ -123,6 +122,7 @@ namespace Player
 
             // Create a bullet instance and shoot it
             var bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            PlayerGunShoot?.Invoke();
             bulletRb = bullet.GetComponent<Rigidbody2D>();
             bulletRb.AddForce(_bulletSpawnPoint.up * bulletSpeed, ForceMode2D.Impulse);
         }

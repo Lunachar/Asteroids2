@@ -60,7 +60,7 @@ namespace Asteroids2
 
         public void Move()
         {
-            Debug.Log("2Target is:" + _target);
+            //Debug.Log("2Target is:" + _target);
             var asteroidPosition = transform.position;
             var playerPosition = _target.position;
             var direction = playerPosition - asteroidPosition;
@@ -69,7 +69,7 @@ namespace Asteroids2
 
         public override void TakeDamage(int damageAmount)
         {
-            Debug.Log("take damage enemy:" + damageAmount);
+            //Debug.Log("take damage enemy:" + damageAmount);
             _asteroidHealth.takeDamage(damageAmount); // Reduce asteroid's health when it takes damage
             if (_asteroidHealth.GetCurrentHealth() <= 0)
             {
