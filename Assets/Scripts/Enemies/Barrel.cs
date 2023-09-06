@@ -11,35 +11,35 @@ namespace Asteroids2
         private Rigidbody2D _rb;            // Rigidbody component for physics interactions
         private float _barrelDestroyTime; // Time when the barrel should be destroyed
         private float _startTime;           // Time when the barrel was created
+        private Vector3 _initialPosition;     // For storing the start vertical position 
+
 
         //public barrelHealthUI barrelHealthUI; // UI component for displaying barrel health
-        public float barrelSpeed = 1f;         // Speed at which the barrel moves
+        public float barrelSpeed = 4f;           // Speed at which the barrel moves
+        public float barrelRotationSpeed = 80f;  // Speed at which the barrel rotates
+        public float scaleX = 4f;
+        public float scaleY = 6f;
+        float cornerAngle = 0;
         public override int ScoreValue => 100;   // Score value awarded when the barrel is destroyed
 
         private void Start()
         {
+            _initialPosition = transform.position;
             _startTime = Time.time;
             _barrelHealth = new Health(100); // Initialize the barrel's health
             _rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
             SetTarget();                        // Set the target for the barrel
             FaceTarget();                      // Rotate the barrel to face the target
-            Move();                            // Move the barrel towards the target
+                                        // Move the barrel towards the target
+            
+            Rotate();
         }
 
         private void Update()
         {
             //barrelHealthUI.UpdateHealthText(); // Update the UI for barrel health
-            
-            float currentTime = Time.time;
-            float elapsedTime = currentTime - _startTime;
+            Move();
 
-            if (elapsedTime >= 6f)
-            {
-                if (gameObject != null)
-                {
-                    Destroy(); // Destroy the barrel when the specified time has passed
-                }
-            }
         }
 
         private void FaceTarget()
@@ -57,12 +57,11 @@ namespace Asteroids2
 
         public void Move()
         {
-            //Debug.Log("2Target is:" + _target);
-            var barrelPosition = transform.position;
-            var playerPosition = _target.position;
-            var direction = playerPosition - barrelPosition;
-            _rb.AddForce(direction.normalized * barrelSpeed, ForceMode2D.Impulse); // Move the barrel towards the player
+            cornerAngle += Time.deltaTime * barrelSpeed;
+            transform.position = _initialPosition + new Vector3(Mathf.Cos(cornerAngle) * scaleX, Mathf.Sin(cornerAngle) * Mathf.Cos(cornerAngle) * scaleY, 0);
         }
+
+  
 
         public override void TakeDamage(int damageAmount)
         {
@@ -85,7 +84,7 @@ namespace Asteroids2
         public int CurrentBarrelHealth => _barrelHealth.GetCurrentHealth(); // Get the current health of the barrel
         public void Rotate()
         {
-            
+            _rb.angularVelocity = barrelRotationSpeed;
         }
     }
 }

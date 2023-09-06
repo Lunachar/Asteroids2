@@ -7,7 +7,13 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public Text text;         // Reference to the UI text element for displaying the score
+    public int initialScore = 0;  // Initial score value
     private static int score = 0;  // Static variable to store the player's score
+
+    private void Start()
+    {
+        score = initialScore;
+    }
 
     public void Update()
     {
