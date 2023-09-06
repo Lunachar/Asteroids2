@@ -40,7 +40,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlayPlayerGunShoot()
     {
-        _audioSource.PlayOneShot(_sound_PlayerGunShoot, 0.5f);
+        _audioSource.PlayOneShot(_sound_PlayerGunShoot, 0.2f);
     }
 
     private IEnumerator WaitForEdgeCollisionSound()

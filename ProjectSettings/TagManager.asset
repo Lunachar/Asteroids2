@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Asteroid
   - PlayerSound
+  - Barrel
+  - Enemy
   layers:
   - Default
   - TransparentFX

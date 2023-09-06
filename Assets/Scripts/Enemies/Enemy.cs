@@ -18,6 +18,6 @@ public abstract class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject); // Destroy the enemy game object
-        EnemyManager.IsEnemyOnScene(); // Notify the EnemyManager that the enemy is no longer on the scene
+        EnemyManager.IsEnemyOnScene(false); // Notify the EnemyManager that the enemy is no longer on the scene
     }
 }

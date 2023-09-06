@@ -14,6 +14,28 @@ namespace Asteroids2
             _enemyPrefab = prefab;        // Assign the enemy prefab
         }
 
+        private void Update()
+        {
+            bool spawnAsteroids = ScoreManager.GetScore() < 400;
+            bool spawnBarrels = ScoreManager.GetScore() >= 400 && ScoreManager.GetScore() < 1200;
+
+            if (spawnAsteroids && !EnemyManager._isEnemyOnScene)
+            {
+                _enemyPrefab = EnemyManager.Instance.asteroidPrefab;
+                Debug.Log($"Enemy2:  {_enemyPrefab}");
+                CreateEnemy();
+                EnemyManager.IsEnemyOnScene(true);
+            }
+            else if (spawnBarrels && !EnemyManager._isEnemyOnScene)
+            {
+                _enemyPrefab = EnemyManager.Instance.barrelPrefab;
+                Debug.Log($"Enemy4:  {_enemyPrefab}");
+                CreateEnemy();
+                EnemyManager.IsEnemyOnScene(true);
+            }
+        }
+
+
         // Create a new enemy and return it
         public virtual Enemy CreateEnemy()
         {

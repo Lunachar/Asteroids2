@@ -17,16 +17,14 @@ namespace Asteroids2
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            Debug.Log("OnTriggerEnter +");
-            if (col.gameObject.CompareTag("Asteroid"))
+            //Debug.Log("OnTriggerEnter +");
+            if (col.gameObject.CompareTag("Enemy"))
             {
-                // Check if the collided object is tagged as "Asteroid"
-                Asteroid asteroid = col.gameObject.GetComponent<Asteroid>();
-                if (asteroid != null)
+                Enemy enemy = col.gameObject.GetComponent<Enemy>();
+                if (enemy != null)
                 {
-                    // If an Asteroid component is found, apply damage to it
-                    asteroid.TakeDamage(damageAmount);
-                    Debug.Log("Damage 10");
+                    enemy.TakeDamage(damageAmount);
+                    //Debug.Log("Damage 10");
                 }
                 else
                 {

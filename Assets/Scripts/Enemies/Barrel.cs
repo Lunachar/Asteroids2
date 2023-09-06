@@ -4,10 +4,7 @@ using UnityEngine.Events;
 
 namespace Asteroids2
 {
-    // Define a delegate for the barrelDestroyed event
-    delegate void BarreldDestroyedCallback();
-
-    public class Barrel : Enemy, IMove
+    public class Barrel : Enemy, IMove, IRotation
     {
         private Health _barrelHealth;     // Health component for the barrel
         private Transform _target;          // Target (e.g., player) for the barrel to follow
@@ -74,7 +71,7 @@ namespace Asteroids2
             if (_barrelHealth.GetCurrentHealth() <= 0)
             {
                 Die(); // Destroy the barrel when its health reaches zero
-                BarrelFactory.SetBarrelSpawned(false); // Notify the barrel factory
+                //BarrelFactory.SetBarrelSpawned(false); // Notify the barrel factory
                 ScoreManager.AddScore(ScoreValue); // Add score when the barrel is destroyed
             }
         }
@@ -82,9 +79,13 @@ namespace Asteroids2
         void Destroy()
         {
             Destroy(gameObject); // Destroy the barrel
-            EnemyManager.IsEnemyOnScene(); // Notify the EnemyManager that an enemy is no longer on the scene
+            EnemyManager.IsEnemyOnScene(false); // Notify the EnemyManager that an enemy is no longer on the scene
         }
 
-        public int CurrentHealth => _barrelHealth.GetCurrentHealth(); // Get the current health of the barrel
+        public int CurrentBarrelHealth => _barrelHealth.GetCurrentHealth(); // Get the current health of the barrel
+        public void Rotate()
+        {
+            
+        }
     }
 }

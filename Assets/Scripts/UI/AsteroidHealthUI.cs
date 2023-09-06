@@ -31,7 +31,7 @@ namespace Asteroids2
         {
             if (healthText != null && asteroidHealth != null)
             {
-                healthText = _asteroid.CurrentHealth.ToString();
+                healthText = _asteroid.CurrentAsteroidHealth.ToString();
             }
             //Debug.Log("Asteroid health is:" + healthText);
         }

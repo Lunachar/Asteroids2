@@ -4,9 +4,6 @@ using UnityEngine.Events;
 
 namespace Asteroids2
 {
-    // Define a delegate for the AsteroidDestroyed event
-    delegate void AsteroidDestroyedCallback();
-
     public class Asteroid : Enemy, IMove
     {
         private Health _asteroidHealth;     // Health component for the asteroid
@@ -74,7 +71,7 @@ namespace Asteroids2
             if (_asteroidHealth.GetCurrentHealth() <= 0)
             {
                 Die(); // Destroy the asteroid when its health reaches zero
-                AsteroidFactory.SetAsteroidSpawned(false); // Notify the asteroid factory
+                //AsteroidFactory.SetAsteroidSpawned(false); // Notify the asteroid factory
                 ScoreManager.AddScore(ScoreValue); // Add score when the asteroid is destroyed
             }
         }
@@ -82,9 +79,9 @@ namespace Asteroids2
         void Destroy()
         {
             Destroy(gameObject); // Destroy the asteroid
-            EnemyManager.IsEnemyOnScene(); // Notify the EnemyManager that an enemy is no longer on the scene
+            EnemyManager.IsEnemyOnScene(false); // Notify the EnemyManager that an enemy is no longer on the scene
         }
 
-        public int CurrentHealth => _asteroidHealth.GetCurrentHealth(); // Get the current health of the asteroid
+        public int CurrentAsteroidHealth => _asteroidHealth.GetCurrentHealth(); // Get the current health of the asteroid
     }
 }
