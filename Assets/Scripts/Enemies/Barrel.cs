@@ -15,39 +15,47 @@ namespace Asteroids2
 
 
         //public barrelHealthUI barrelHealthUI; // UI component for displaying barrel health
-        public float barrelSpeed = 4f;           // Speed at which the barrel moves
+        public float barrelSpeed = 15f;           // Speed at which the barrel moves
         public float barrelRotationSpeed = 80f;  // Speed at which the barrel rotates
-        public float scaleX = 4f;
-        public float scaleY = 6f;
-        float cornerAngle = 0;
-        public override int ScoreValue => 100;   // Score value awarded when the barrel is destroyed
 
+        public override int ScoreValue => 100;   // Score value awarded when the barrel is destroyed
+        Vector3 position;
         private void Start()
         {
             _initialPosition = transform.position;
             _startTime = Time.time;
-            _barrelHealth = new Health(100); // Initialize the barrel's health
+            _barrelHealth = new Health(150); // Initialize the barrel's health
             _rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
             SetTarget();                        // Set the target for the barrel
-            FaceTarget();                      // Rotate the barrel to face the target
+            //FaceTarget();                      // Rotate the barrel to face the target
                                         // Move the barrel towards the target
-            
+             
             Rotate();
         }
 
         private void Update()
         {
+            float currentTime = Time.time;
+            float elapsedTime = currentTime - _startTime;
+
+            if (elapsedTime >= 8f)
+            {
+                if (gameObject != null)
+                {
+                    Destroy(); // Destroy the barrel when the specified time has passed
+                }
+            }
             //barrelHealthUI.UpdateHealthText(); // Update the UI for barrel health
-            Move();
+           Move();
 
         }
 
-        private void FaceTarget()
-        {
-            Vector2 direction = _target.position - transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            _rb.rotation = angle; // Rotate the barrel to face the target
-        }
+        // private void FaceTarget()
+        // {
+        //     Vector2 direction = _target.position - transform.position;
+        //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //     _rb.rotation = angle; // Rotate the barrel to face the target
+        // }
 
         public override void SetTarget()
         {
@@ -57,8 +65,8 @@ namespace Asteroids2
 
         public void Move()
         {
-            cornerAngle += Time.deltaTime * barrelSpeed;
-            transform.position = _initialPosition + new Vector3(Mathf.Cos(cornerAngle) * scaleX, Mathf.Sin(cornerAngle) * Mathf.Cos(cornerAngle) * scaleY, 0);
+            Vector3 directionToPlayer = (_target.position - _initialPosition).normalized;
+            transform.position += directionToPlayer * barrelSpeed * Time.deltaTime;
         }
 
   

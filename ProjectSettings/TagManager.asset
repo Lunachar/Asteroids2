@@ -8,6 +8,8 @@ TagManager:
   - PlayerSound
   - Barrel
   - Enemy
+  - Boss
+  - FinallyText
   layers:
   - Default
   - TransparentFX

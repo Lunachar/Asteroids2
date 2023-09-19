@@ -25,7 +25,7 @@ namespace Player
         [SerializeField] private Transform gun2;               // Reference to the second gun
         [SerializeField] private GameObject bulletPrefab;      // Prefab of the bullet
         [SerializeField] private Rigidbody2D bulletRb;         // Rigidbody of the bullet
-        [SerializeField] private float bulletSpeed = 1f;       // Speed of the bullets
+        [SerializeField] private float bulletSpeed = 2f;       // Speed of the bullets
         private bool _shootSide;                               // Tracks which gun to use for shooting
         private Transform _bulletSpawnPoint;                    // Reference to the spawn point of bullets
 
@@ -124,7 +124,7 @@ namespace Player
             var bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             PlayerGunShoot?.Invoke();
             bulletRb = bullet.GetComponent<Rigidbody2D>();
-            bulletRb.AddForce(_bulletSpawnPoint.up * bulletSpeed, ForceMode2D.Impulse);
+            bulletRb.AddForce((_bulletSpawnPoint.up * (bulletSpeed + _speed)), ForceMode2D.Impulse);
         }
 
         private void CalculateScreenBounds(out float minX, out float maxX, out float minY, out float maxY)

@@ -11,12 +11,15 @@ namespace Asteroids2
         public Transform[] spawnPoints;        // Array of spawn points for enemies
         public GameObject asteroidPrefab;      // Prefab for enemy
         public GameObject barrelPrefab;        // Prefab for enemy
+        public GameObject bossPrefab;
         public EnemyFactory enemyFactory;      // Reference to the enemy factory
         public static EnemyManager Instance { get; private set; }  // Singleton instance of the EnemyManager
 
         private GameObject _enemyPrefab;        // Prefab for enemy objects
 
         internal static bool _isEnemyOnScene = false;  // Flag to track if an enemy is currently on the scene
+
+        
 
         private void Awake()
         {

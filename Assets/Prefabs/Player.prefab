@@ -4960,13 +4960,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _rotationSpeed: 200
   gun1: {fileID: 0}
   gun2: {fileID: 0}
   bulletPrefab: {fileID: 0}
   bulletRb: {fileID: 0}
-  bulletSpeed: 1
-  TimeBetweenShoots: 1
+  bulletSpeed: 10
+  timeBetweenShoots: 0.2
 --- !u!114 &-7837383170143111497
 MonoBehaviour:
   m_ObjectHideFlags: 0
