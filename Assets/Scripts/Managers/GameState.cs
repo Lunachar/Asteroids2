@@ -3,7 +3,7 @@
     public enum GameState
     {
         None,
-        Start,
+        MainMenu,
         Game,
         Pause,
         End

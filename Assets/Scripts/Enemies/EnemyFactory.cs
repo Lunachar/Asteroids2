@@ -91,16 +91,17 @@ namespace Asteroids2
                 yield return new WaitForSeconds(delay);
                 text.GetComponent<Text>().enabled = false;
 
-                if (OnFinallyEvent != null)
-                {
-                    OnFinallyEvent.Invoke();
-                }
+                OnFinallyEvent?.Invoke();
             }
         }
 
         void HandleFinallyEvent()
         {
-            CreateEnemy();
+            if (!EnemyManager._isEnemyOnScene)
+            {
+               CreateEnemy(); 
+            }
+            
             EnemyManager.IsEnemyOnScene(true);
         }
     }

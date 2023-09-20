@@ -23,7 +23,6 @@ namespace Asteroids2
 
         private void Awake()
         {
-            // Ensure there is only one instance of EnemyManager
             if (Instance == null)
             {
                 Instance = this;

@@ -7,7 +7,10 @@
     {
         public void LoadGameScene()
         {
-            SceneManager.LoadScene("GameScene");
+            if (SceneManager.GetActiveScene().name != "GameScene")
+            {
+                SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
+            }
         }
     }
 }

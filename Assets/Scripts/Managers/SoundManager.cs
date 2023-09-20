@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Asteroids2;
 using Player;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     private AudioSource _audioSource;
-    
+
     public AudioClip _sound_PlayerEdgeCollision;
     public AudioClip _sound_PlayerGunShoot;
     
@@ -15,7 +16,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        _audioSource = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
+        _audioSource = MusicManagerScript.Instance._audioSource;
     }
 
     private void OnEnable()
