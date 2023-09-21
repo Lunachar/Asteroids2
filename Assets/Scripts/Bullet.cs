@@ -28,7 +28,7 @@ namespace Asteroids2
                 }
                 else
                 {
-                    Debug.Log("Asteroid not found!");
+                    Debug.Log("Enemy not found!");
                 }
 
                 // Destroy the bullet game object on collision with an asteroid
