@@ -12,7 +12,7 @@ public class MusicManagerScript : MonoBehaviour
         get { return _instance; }
     }
 
-    internal AudioSource _audioSource;
+    internal AudioSource AudioSource;
 
     public AudioClip mainMenuMusic;
     public AudioClip gameMusic;
@@ -27,23 +27,23 @@ public class MusicManagerScript : MonoBehaviour
         _instance = this;
 
         DontDestroyOnLoad(this.gameObject);
-        _audioSource = GetComponent<AudioSource>();
-        Debug.Log($"audioSource1 is: {_audioSource}");
+        AudioSource = GetComponent<AudioSource>();
+        Debug.Log($"audioSource1 is: {AudioSource.name}");
     }
 
     public void PlayMainMenuMusic()
     {
-        _audioSource.clip = mainMenuMusic;
-        Debug.Log($"audioSource2 is: {_audioSource}");
-        _audioSource.loop = true;
-        _audioSource.PlayOneShot(mainMenuMusic, 1f);
+        AudioSource.clip = mainMenuMusic;
+        Debug.Log($"audioSource2 is: {AudioSource.name}");
+        AudioSource.loop = true;
+        AudioSource.PlayOneShot(mainMenuMusic, 1f);
     }
 
     public void PlayGameMusic()
     {
-        _audioSource.clip = gameMusic;
-        Debug.Log($"audioSource3 is: {_audioSource}");
-        _audioSource.loop = true;
-        _audioSource.Play();
+        AudioSource.clip = gameMusic;
+        Debug.Log($"audioSource3 is: {AudioSource.name}");
+        AudioSource.loop = true;
+        AudioSource.Play();
     }
 }

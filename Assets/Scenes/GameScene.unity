@@ -741,8 +741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719d0591f2c3b7441adfac2167abd180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sound_PlayerEdgeCollision: {fileID: 8300000, guid: 10b17caea660b184890125ffcbf9059d, type: 3}
-  _sound_PlayerGunShoot: {fileID: 8300000, guid: c5fe4fe598fae984da0b78b2f030e02e, type: 3}
+  soundPlayerEdgeCollision: {fileID: 8300000, guid: 10b17caea660b184890125ffcbf9059d, type: 3}
+  soundPlayerGunShoot: {fileID: 8300000, guid: c5fe4fe598fae984da0b78b2f030e02e, type: 3}
 --- !u!1 &947022169
 GameObject:
   m_ObjectHideFlags: 0

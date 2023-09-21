@@ -48,22 +48,18 @@ namespace Asteroids2
             if (spawnAsteroids && !EnemyManager._isEnemyOnScene)
             {
                 _enemyPrefab = EnemyManager.Instance.asteroidPrefab;
-                Debug.Log($"Enemy2:  {_enemyPrefab}");
                 CreateEnemy();
                 EnemyManager.IsEnemyOnScene(true);
             }
             else if (spawnBarrels && !EnemyManager._isEnemyOnScene)
             {
                 _enemyPrefab = EnemyManager.Instance.barrelPrefab;
-                Debug.Log($"Enemy4:  {_enemyPrefab}");
                 CreateEnemy();
                 EnemyManager.IsEnemyOnScene(true);
             }
             else if (spawnBoss && !EnemyManager._isEnemyOnScene)
             {
                 _enemyPrefab = EnemyManager.Instance.bossPrefab;
-                Debug.Log($"Boss:  {_enemyPrefab}");
-                Debug.Log($"finally text: {FinallyDisplay.textField}");
                 StartCoroutine(ShowAndHide(FinallyDisplay.TextObject, 4f));
             }
         }
@@ -99,10 +95,9 @@ namespace Asteroids2
         {
             if (!EnemyManager._isEnemyOnScene)
             {
-               CreateEnemy(); 
+               CreateEnemy();
+               EnemyManager.IsEnemyOnScene(true);
             }
-            
-            EnemyManager.IsEnemyOnScene(true);
         }
     }
 }

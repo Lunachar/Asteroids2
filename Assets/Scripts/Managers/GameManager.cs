@@ -15,10 +15,10 @@ namespace Asteroids2
         public Button settingsButton;
 
         
-        private int _playerScore;
-        private int _playerHp;
-        private float _asteroidGamePlay;
-        private float _barrelGamePlay;
+        //private int _playerScore;
+        //private int _playerHp;
+        //private float _asteroidGamePlay;
+        //private float _barrelGamePlay;
 
         private void Awake()
         {
@@ -28,7 +28,6 @@ namespace Asteroids2
         private void Start()
         {
             gameState = GameState.MainMenu;
-            //SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Additive);
             StartCoroutine(LoadMainMenu());
             
             startButton.onClick.AddListener(StartGame);
@@ -46,7 +45,7 @@ namespace Asteroids2
 
         private void StartGame()
         {
-            SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
+            //SceneManager.UnloadSceneAsync("MainMenuScene");
             StartCoroutine(LoadGameScene());
         }
 
@@ -58,33 +57,35 @@ namespace Asteroids2
 
         private IEnumerator LoadGameScene()
         {
-            yield return new WaitUntil(() => SceneManager.GetSceneByName("GameScene").isLoaded);
-            
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Additive);
+    
+            yield return loadOperation;
+
             MusicManagerScript.Instance.PlayGameMusic();
-
-            SceneManager.UnloadSceneAsync("MainMenuScene");
-
             gameState = GameState.Game;
+    
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("MainMenuScene");
+            yield return unloadOperation;
         }
 
-        // private void Update()
-        // {
-        //     if (Input.GetKeyDown(KeyCode.Escape))
-        //     {
-        //         if (gameState == GameState.Game)
-        //         {
-        //             // show settings menu
-        //             SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
-        //             gameState = GameState.None;
-        //         }
-        //         else if (gameState == GameState.None)
-        //         {
-        //             // back in the game
-        //             SceneManager.UnloadSceneAsync("SettingsScene");
-        //             gameState = GameState.Game;
-        //         }
-        //     }
-        // }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (gameState == GameState.Game)
+                {
+                    // show settings menu
+                    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+                    gameState = GameState.None;
+                }
+                else if (gameState == GameState.None)
+                {
+                    // back in the game
+                    SceneManager.UnloadSceneAsync("SettingsScene");
+                    gameState = GameState.Game;
+                }
+            }
+        }
 
 
     }

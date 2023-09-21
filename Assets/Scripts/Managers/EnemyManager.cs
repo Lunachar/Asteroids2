@@ -8,16 +8,16 @@ namespace Asteroids2
 {
     public class EnemyManager : MonoBehaviour
     {
-        public Transform[] spawnPoints;        // Array of spawn points for enemies
-        public GameObject asteroidPrefab;      // Prefab for enemy
-        public GameObject barrelPrefab;        // Prefab for enemy
+        public Transform[] spawnPoints; // Array of spawn points for enemies
+        public GameObject asteroidPrefab; // Prefab for enemy
+        public GameObject barrelPrefab; // Prefab for enemy
         public GameObject bossPrefab;
-        public EnemyFactory enemyFactory;      // Reference to the enemy factory
-        public static EnemyManager Instance { get; private set; }  // Singleton instance of the EnemyManager
+        public EnemyFactory enemyFactory; // Reference to the enemy factory
+        public static EnemyManager Instance { get; private set; } // Singleton instance of the EnemyManager
 
-        private GameObject _enemyPrefab;        // Prefab for enemy objects
+        private GameObject _enemyPrefab; // Prefab for enemy objects
 
-        internal static bool _isEnemyOnScene = false;  // Flag to track if an enemy is currently on the scene
+        internal static bool _isEnemyOnScene;  // Flag to track if an enemy is currently on the scene
 
         
 
@@ -45,7 +45,7 @@ namespace Asteroids2
         {
             // Debug.Log($"Score: {ScoreManager.GetScore()}");
             // Debug.Log($"spawnAsteroids:  {spawnAsteroids}");
-            // Debug.Log($"_isEnemyOnScene:  {_isEnemyOnScene}");
+            // Debug.Log($"_isEnemyOnScene:  {_isEnemyOnScene.ToString()}");
         }
 
         // Reset the flag to indicate no enemy is on the scene

@@ -74,7 +74,7 @@ namespace Asteroids2
             }
         }
 
-        void Destroy()
+        private void Destroy()
         {
             Destroy(gameObject); // Destroy the asteroid
             EnemyManager.IsEnemyOnScene(false); // Notify the EnemyManager that an enemy is no longer on the scene
