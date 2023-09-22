@@ -33,12 +33,17 @@ namespace Player
         private float _verticalInput;                           // Input for vertical movement
 
         private bool _isShooting = false;                      // Tracks if the player is currently shooting
-        public float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
+        private float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
+
+        public static Health PlayerHealth;
+        
+        
 
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            PlayerHealth = new Health(100);
         }
 
         private void Update()
@@ -143,6 +148,15 @@ namespace Player
             if (position.x <= minX || position.x >= maxX || position.y <= minY || position.y >= maxY)
             {
                 OnScreenEdgeCollision?.Invoke();
+            }
+        }
+
+        public void TakeDamage(int damageAmount)
+        {
+            PlayerHealth.takeDamage(damageAmount);
+            if (PlayerHealth.GetCurrentHealth() <= 0)
+            {
+                Debug.Log($"_--== PLAYER HEALTH ==--_ \n -== 0 ==-");
             }
         }
     }

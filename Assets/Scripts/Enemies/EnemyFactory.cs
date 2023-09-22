@@ -43,7 +43,7 @@ namespace Asteroids2
         {
             bool spawnAsteroids = ScoreManager.GetScore() < 200;
             bool spawnBarrels = ScoreManager.GetScore() >= 200 && ScoreManager.GetScore() < 400;
-            bool spawnBoss = ScoreManager.GetScore() >= 400;
+            bool spawnBoss = ScoreManager.GetScore() >= 400 && ScoreManager.GetScore() < 500;
 
             if (spawnAsteroids && !EnemyManager._isEnemyOnScene)
             {
