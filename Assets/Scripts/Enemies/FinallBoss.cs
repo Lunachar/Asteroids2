@@ -15,8 +15,8 @@ namespace Asteroids2
     private bool _isMoving = true;
     private bool _isShooting = false;
     private float _moveSpeed = 2.0f;
-    private float _rotationSpeed = 90.0f;
-    private float _shootCooldown = 1f;
+    private float _rotationSpeed = 0.5f;
+    private float _shootCooldown = 10f;
     private float _nextShootTime;
 
 
@@ -28,8 +28,7 @@ namespace Asteroids2
         _bossHealth = new Health(500);
         _rb = GetComponent<Rigidbody2D>();
         SetTarget();                        // Set the target for the Boss
-        //FaceTarget();                      // Rotate the Boss to face the target
-        //Rotate();
+
     }
 
     void Update()
@@ -45,7 +44,9 @@ namespace Asteroids2
             Shoot();
         }
 
+        Rotate();
     }
+    
     public override void SetTarget()
     {
         _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
@@ -56,8 +57,6 @@ namespace Asteroids2
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _rb.rotation = angle; // Rotate the boss to face the target
     }
-
-
 
 
     public override void TakeDamage(int damageAmount)
@@ -72,37 +71,47 @@ namespace Asteroids2
 
     public void Move()
     {
+        if (! _isMoving)
+        {
+            return;
+        }
+        
         Vector3 directionToPlayer = (_target.position - _initialPosition).normalized;
-        transform.position += directionToPlayer * Time.deltaTime;
+        transform.position += directionToPlayer * _moveSpeed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, _target.position) <= 2.0f)
+        if (Vector3.Distance(transform.position, _target.position) <= 5f)
         {
             _isMoving = false;
             _isShooting = true;
-            FaceTarget();
+        }
+        else
+        {
+            _isMoving = true;
+            _isShooting = false;
         }
     }
 
-    // IEnumerator mover()
-    // {
-    //     Vector3 directionToPlayer = (_target.position - _initialPosition).normalized;
-    //     transform.position += directionToPlayer * Time.deltaTime;
-    //
-    //     yield return new WaitForSeconds(2);
-    //     
-    //     FaceTarget();
-    //     yield return new WaitForSeconds(0.5f);
-    //     
-    //     //Shoot();
-    // }
 
     public void Rotate()
     {
-        _rb.angularVelocity = 20f;
+        Vector3 directonToTarget = (_target.position - transform.position).normalized;
+
+        Vector2 directionXY = new Vector2(directonToTarget.x, directonToTarget.y);
+
+        float angle = Vector2.SignedAngle(Vector2.right, directionXY);
+        
+        Quaternion desiredRotation = Quaternion.Euler(0, 0, angle);
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime * _rotationSpeed);
     }
 
     public void Shoot()
     {
+        if (! _isShooting)
+        {
+            return;
+        }
+        
         if (Time.time > _nextShootTime)
         {
             _raycastGun.StartShooting();

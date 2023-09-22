@@ -21,11 +21,12 @@ public class RaycastGun : MonoBehaviour
     {
         laserLine = GetComponent<LineRenderer>();
         
+        _raycastGun = GetComponent<RaycastGun>();
     }
 
     private void Update()
     {
-        StartShooting();
+        //StartShooting();
     }
 
     public void StartShooting()
