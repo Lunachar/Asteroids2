@@ -35,7 +35,7 @@ namespace Player
         private bool _isShooting = false;                      // Tracks if the player is currently shooting
         private float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
 
-        public static Health PlayerHealth;
+        [SerializeField] public static Health PlayerHealth;
         
         
 
