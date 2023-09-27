@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11792451, g: 0.1855618, b: 1, a: 1}
+  m_Color: {r: 0.97990465, g: 1, b: 0.11764705, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -727,7 +727,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400e010c0763fd5449a4a9c7c4ccb946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2051532799}
+  scroreText: {fileID: 2051532799}
+  playerHPText: {fileID: 1800354680}
+  asteroidHPText: {fileID: 0}
+  barrelHPText: {fileID: 0}
+  BossHpText: {fileID: 0}
+  _playerModel: {fileID: 1201172986}
   initialScore: 0
 --- !u!114 &745896515
 MonoBehaviour:
@@ -903,6 +908,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+--- !u!114 &1201172986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1846366587225407137, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+  m_PrefabInstance: {fileID: 1201172985}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624200361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e577bdcf0d93465594ae74d97ad545f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1204845368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.854902, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1365,7 +1381,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 300
@@ -1551,7 +1567,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051532797}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1561,7 +1577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -76, y: -54.589996}
+  m_AnchoredPosition: {x: -75.99997, y: -54.589935}
   m_SizeDelta: {x: 105.96, y: 50.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2051532799
@@ -1587,7 +1603,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 300

@@ -79,7 +79,7 @@ namespace Asteroids2
             {
                 Die(); // Destroy the barrel when its health reaches zero
                 //BarrelFactory.SetBarrelSpawned(false); // Notify the barrel factory
-                ScoreManager.AddScore(ScoreValue); // Add score when the barrel is destroyed
+                DisplayUIManager.AddScore(ScoreValue); // Add score when the barrel is destroyed
             }
         }
 

@@ -70,7 +70,7 @@ namespace Asteroids2
             {
                 Die(); // Destroy the asteroid when its health reaches zero
                 //AsteroidFactory.SetAsteroidSpawned(false); // Notify the asteroid factory
-                ScoreManager.AddScore(ScoreValue); // Add score when the asteroid is destroyed
+                DisplayUIManager.AddScore(ScoreValue); // Add score when the asteroid is destroyed
             }
         }
 

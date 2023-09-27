@@ -7,39 +7,36 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
-    
-
     public class PlayerModel : MonoBehaviour, IMove, IRotation, IShoot
     {
         private Rigidbody2D _rb;
         public static event Action OnScreenEdgeCollision;
         public static event Action PlayerGunShoot;
-        
-        public Vector2 Position => _rb.position;  // Player's current position
-        public float Rotation => _rb.rotation;    // Player's current rotation angle
 
-        [SerializeField] private float _speed = 5f;           // Movement speed of the player
+        public Vector2 Position => _rb.position; // Player's current position
+        public float Rotation => _rb.rotation; // Player's current rotation angle
+
+        [SerializeField] private float _speed = 5f; // Movement speed of the player
         //[SerializeField] private float _rotationSpeed = 20f;  // Rotation speed of the player
 
-        [SerializeField] private Transform gun1;               // Reference to the first gun
-        [SerializeField] private Transform gun2;               // Reference to the second gun
-        [SerializeField] private GameObject bulletPrefab;      // Prefab of the bullet
-        [SerializeField] private Rigidbody2D bulletRb;         // Rigidbody of the bullet
-        [SerializeField] private float bulletSpeed = 2f;       // Speed of the bullets
-        private bool _shootSide;                               // Tracks which gun to use for shooting
-        private Transform _bulletSpawnPoint;                    // Reference to the spawn point of bullets
+        [SerializeField] private Transform gun1; // Reference to the first gun
+        [SerializeField] private Transform gun2; // Reference to the second gun
+        [SerializeField] private GameObject bulletPrefab; // Prefab of the bullet
+        [SerializeField] private Rigidbody2D bulletRb; // Rigidbody of the bullet
+        [SerializeField] private float bulletSpeed = 2f; // Speed of the bullets
+        private bool _shootSide; // Tracks which gun to use for shooting
+        private Transform _bulletSpawnPoint; // Reference to the spawn point of bullets
 
-        private float _horizontalInput;                         // Input for horizontal movement
-        private float _verticalInput;                           // Input for vertical movement
+        private float _horizontalInput; // Input for horizontal movement
+        private float _verticalInput; // Input for vertical movement
 
-        private bool _isShooting = false;                      // Tracks if the player is currently shooting
-        private float timeBetweenShoots = 0.2f;                 // Time delay between consecutive shots
+        private bool _isShooting = false; // Tracks if the player is currently shooting
+        private float timeBetweenShoots = 0.2f; // Time delay between consecutive shots
 
-        [SerializeField] public static Health PlayerHealth;
-        
-        
+        public Health PlayerHealth;
 
 
+        //public static PlayerModel Instance { get; private set; }
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -49,7 +46,7 @@ namespace Player
         private void Update()
         {
             CheckScreenEdgeCollision();
-            _verticalInput = Input.GetAxis("Vertical");   // Get vertical input (e.g., W, S, Up, Down)
+            _verticalInput = Input.GetAxis("Vertical"); // Get vertical input (e.g., W, S, Up, Down)
             _horizontalInput = Input.GetAxis("Horizontal"); // Get horizontal input (e.g., A, D, Left, Right)
 
             if (Input.GetMouseButton(0))
@@ -143,7 +140,7 @@ namespace Player
         private void CheckScreenEdgeCollision()
         {
             Vector2 position = _rb.position;
-            
+
             CalculateScreenBounds(out var minX, out var maxX, out var minY, out var maxY);
             if (position.x <= minX || position.x >= maxX || position.y <= minY || position.y >= maxY)
             {
@@ -151,13 +148,12 @@ namespace Player
             }
         }
 
-        public void TakeDamage(int damageAmount)
-        {
-            PlayerHealth.takeDamage(damageAmount);
-            if (PlayerHealth.GetCurrentHealth() <= 0)
-            {
-                Debug.Log($"_--== PLAYER HEALTH ==--_ \n -== 0 ==-");
-            }
-        }
+        // public void TakeDamage(int damageAmount)
+        // {
+        //     PlayerHealth.takeDamage(damageAmount);
+        //     if (PlayerHealth.GetCurrentHealth() <= 0)
+        //     {
+        //         Debug.Log($"_--== PLAYER HEALTH ==--_ \n -== 0 ==-");
+        //     }
     }
 }

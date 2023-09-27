@@ -8,10 +8,11 @@ namespace Asteroids2
     [RequireComponent(typeof(LineRenderer))]
     public class FinallBoss : Enemy, IMove, IRotation, IShoot
     {
+        public PlayerModel _playerModel;
         public Transform laserOrign;
         public float gunRange = 50f;
-        public float fireRate = 2f;
-        public float laserDuration = 0.9f;
+        public float fireRate = 1f;
+        public float laserDuration = 0.05f;
 
         private LineRenderer laserLine;
         private float fireTimer;
@@ -43,6 +44,7 @@ namespace Asteroids2
             _startTime = Time.time;
             _bossHealth = new Health(500);
             _rb = GetComponent<Rigidbody2D>();
+            //_playerModel = GPlayerModel;
         }
 
         void Update()
@@ -77,7 +79,7 @@ namespace Asteroids2
             if (_bossHealth.GetCurrentHealth() <= 0)
             {
                 Die(); // Destroy the Bos when its health reaches zero
-                ScoreManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
+                DisplayUIManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
             }
         }
 
@@ -117,33 +119,36 @@ namespace Asteroids2
 
         public void Shoot()
         {
+            // Vector3 rayOrigin = laserOrign.position;
+
             if (_isShooting && _shootNumber < 6 /* && Time.time > _nextShootTime*/)
             {
-                Vector3 direction = _target.position - gameObject.transform.position;
+
                 fireTimer += Time.deltaTime;
+                Debug.Log($"fireTimer: {fireTimer.ToString()}; fireRate: {fireRate.ToString()}");
                 if (fireTimer > fireRate)
                 {
                     Debug.Log($"fireTimer > fireRate");
                     fireTimer = 0;
                     laserLine.SetPosition(0, laserOrign.position);
-                    Vector3 rayOrigin = laserOrign.position;
-                    RaycastHit hit;
+                    
 
-                    if (Physics.Raycast(rayOrigin, direction, out hit, gunRange))
+                    Vector2 direction = _target.position - gameObject.transform.position;
+                    Vector2 rayOrigin = laserOrign.position;
+                    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, gunRange);
+
+                    if (hit.collider.gameObject == _target.gameObject)
                     {
+                        laserLine.SetPosition(1, hit.point*2);
+                        _target.GetComponent<PlayerModel>().PlayerHealth.takeDamage(30);
+                        Debug.LogError($"takeDamage {_target.GetComponent<PlayerModel>().PlayerHealth.GetCurrentHealth().ToString()}");
                         Debug.Log($"RayCast");
-                        laserLine.SetPosition(1, hit.point);
-                        if (hit.collider.gameObject == _target.gameObject)
-                        {
-                            PlayerModel.PlayerHealth.takeDamage(100);
-                            Debug.LogError($"takeDamage");
-                        }
                     }
                     else
                     {
                         laserLine.SetPosition(1, rayOrigin + (direction * gunRange));
                     }
-
+            
                     StartCoroutine(ShootLaser());
                 }
 
