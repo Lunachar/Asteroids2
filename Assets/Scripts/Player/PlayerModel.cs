@@ -148,12 +148,5 @@ namespace Player
             }
         }
 
-        // public void TakeDamage(int damageAmount)
-        // {
-        //     PlayerHealth.takeDamage(damageAmount);
-        //     if (PlayerHealth.GetCurrentHealth() <= 0)
-        //     {
-        //         Debug.Log($"_--== PLAYER HEALTH ==--_ \n -== 0 ==-");
-        //     }
     }
 }

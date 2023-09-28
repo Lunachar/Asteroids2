@@ -3,7 +3,14 @@ guid: 400e010c0763fd5449a4a9c7c4ccb946
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - scroreText: {instanceID: 0}
+  - playerHPText: {instanceID: 0}
+  - asteroidHPText: {instanceID: 0}
+  - BossHpText: {instanceID: 0}
+  - _playerModel: {fileID: -1846366587225407137, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+  - _asteroid: {fileID: 5036124826755630215, guid: a97ec34df021b344487d4a1a0bf8989b, type: 3}
+  - _barrel: {fileID: 7396361570546707643, guid: 7df415467408e0c4bbee5e7f860665f1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

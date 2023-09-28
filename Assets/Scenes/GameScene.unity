@@ -730,9 +730,10 @@ MonoBehaviour:
   scroreText: {fileID: 2051532799}
   playerHPText: {fileID: 1800354680}
   asteroidHPText: {fileID: 0}
-  barrelHPText: {fileID: 0}
+  barrelHPText: {fileID: 202952545}
   BossHpText: {fileID: 0}
   _playerModel: {fileID: 1201172986}
+  _barrel: {fileID: 7396361570546707643, guid: 7df415467408e0c4bbee5e7f860665f1, type: 3}
   initialScore: 0
 --- !u!114 &745896515
 MonoBehaviour:

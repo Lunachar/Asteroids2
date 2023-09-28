@@ -6,6 +6,8 @@
         MainMenu,
         Game,
         Pause,
+        Lose,
+        Win,
         End
     }
 }

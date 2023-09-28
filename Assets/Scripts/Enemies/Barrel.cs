@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Asteroids2
 {
@@ -11,9 +12,10 @@ namespace Asteroids2
         private Rigidbody2D _rb;            // Rigidbody component for physics interactions
         private float _barrelDestroyTime; // Time when the barrel should be destroyed
         private float _startTime;           // Time when the barrel was created
-        private Vector3 _initialPosition;     // For storing the start vertical position 
+        private Vector3 _initialPosition;     // For storing the start vertical position
+        private int _barrelHp;
 
-
+        public Text _text;
         //public barrelHealthUI barrelHealthUI; // UI component for displaying barrel health
         public float barrelSpeed = 15f;           // Speed at which the barrel moves
         public float barrelRotationSpeed = 80f;  // Speed at which the barrel rotates
@@ -24,17 +26,16 @@ namespace Asteroids2
         {
             _initialPosition = transform.position;
             _startTime = Time.time;
-            _barrelHealth = new Health(150); // Initialize the barrel's health
+            _barrelHealth = new Health(200); // Initialize the barrel's health
             _rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
             SetTarget();                        // Set the target for the barrel
-            //FaceTarget();                      // Rotate the barrel to face the target
-                                        // Move the barrel towards the target
-             
             Rotate();
         }
 
         private void Update()
         {
+            _barrelHp = CurrentBarrelHealth;
+            _text.text = _barrelHp.ToString();
             float currentTime = Time.time;
             float elapsedTime = currentTime - _startTime;
 
@@ -47,6 +48,7 @@ namespace Asteroids2
             }
             //barrelHealthUI.UpdateHealthText(); // Update the UI for barrel health
            Move();
+           
 
         }
 

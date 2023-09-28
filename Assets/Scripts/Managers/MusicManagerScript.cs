@@ -16,6 +16,7 @@ public class MusicManagerScript : MonoBehaviour
 
     public AudioClip mainMenuMusic;
     public AudioClip gameMusic;
+    public AudioClip loseMusic;
 
     private void Awake()
     {
@@ -45,5 +46,12 @@ public class MusicManagerScript : MonoBehaviour
         Debug.Log($"audioSource3 is: {AudioSource.name}");
         AudioSource.loop = true;
         AudioSource.Play();
+    }
+
+    public void PlayLoseMusic()
+    {
+        AudioSource.clip = loseMusic;
+        AudioSource.loop = false;
+        AudioSource.PlayOneShot(loseMusic);
     }
 }

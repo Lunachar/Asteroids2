@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Asteroids2
 {
@@ -9,10 +12,25 @@ namespace Asteroids2
         private Rigidbody2D _rb;            // Rigidbody component for physics interactions
         private float _asteroidDestroyTime; // Time when the asteroid should be destroyed
         private float _startTime;           // Time when the asteroid was created
-
-        public AsteroidHealthUI asteroidHealthUI; // UI component for displaying asteroid health
+        private int _asteroidHp;
+        
+        public TextMeshProUGUI _text;
         public float asteroidSpeed = 1f;         // Speed at which the asteroid moves
         public override int ScoreValue => 100;   // Score value awarded when the asteroid is destroyed
+
+        //public static Asteroid Instance { get; private set; }
+
+        // private void Awake()
+        // {
+        //     if (Instance == null)
+        //     {
+        //         Instance = this;
+        //     }
+        //     else
+        //     {
+        //         Destroy(gameObject);
+        //     }
+        // }
 
         private void Start()
         {
@@ -26,8 +44,8 @@ namespace Asteroids2
 
         private void Update()
         {
-            asteroidHealthUI.UpdateHealthText(); // Update the UI for asteroid health
-            
+            _asteroidHp = CurrentAsteroidHealth;
+            _text.text = _asteroidHp.ToString();
             float currentTime = Time.time;
             float elapsedTime = currentTime - _startTime;
 

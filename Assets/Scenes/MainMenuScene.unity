@@ -743,6 +743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuMusic: {fileID: 8300000, guid: 251750c71a5914b4e8c8909c8c25e7be, type: 3}
   gameMusic: {fileID: 8300000, guid: 6acbeb16c2c37a94f808115e975a676d, type: 3}
+  loseMusic: {fileID: 8300000, guid: adadc5889b17d2b4eb0c1a2f8f30006a, type: 3}
 --- !u!4 &1742671726
 Transform:
   m_ObjectHideFlags: 0

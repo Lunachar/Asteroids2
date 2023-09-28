@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UI.Buttons;
@@ -10,9 +11,12 @@ namespace Asteroids2
     public class GameManager:MonoBehaviour
     {
         private GameState gameState;
+        private PlayerModel _playerModel;
 
         public Button startButton;
         public Button settingsButton;
+
+        private float _musicLenght;
 
         
         //private int _playerScore;
@@ -67,6 +71,18 @@ namespace Asteroids2
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("MainMenuScene");
             yield return unloadOperation;
         }
+        private IEnumerator LoadLoseScene()
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
+    
+            yield return loadOperation;
+
+            MusicManagerScript.Instance.PlayGameMusic();
+            gameState = GameState.Lose;
+    
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
+            yield return unloadOperation;
+        }
 
         private void Update()
         {
@@ -85,6 +101,24 @@ namespace Asteroids2
                     gameState = GameState.Game;
                 }
             }
+
+            if (_playerModel != null && _playerModel.PlayerHealth != null)
+            {
+                if (_playerModel.PlayerHealth.GetCurrentHealth() == 0)
+                {
+                    StartCoroutine(PlayLoseMusicCoroutine());
+                    LoadLoseScene();
+                }
+            }
+            
+            
+        }
+
+        private IEnumerator PlayLoseMusicCoroutine()
+        {
+            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
+            yield return new WaitForSeconds(_musicLenght);
+            MusicManagerScript.Instance.PlayLoseMusic();
         }
 
 

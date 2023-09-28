@@ -8,7 +8,6 @@ namespace Asteroids2
     [RequireComponent(typeof(LineRenderer))]
     public class FinallBoss : Enemy, IMove, IRotation, IShoot
     {
-        public PlayerModel _playerModel;
         public Transform laserOrign;
         public float gunRange = 50f;
         public float fireRate = 1f;

@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 8918099138559673042}
   - component: {fileID: 5274555739820849283}
   - component: {fileID: 5036124826755630215}
-  - component: {fileID: 864525028891881785}
   - component: {fileID: 7795154054948966170}
   - component: {fileID: 5059230403472788877}
   m_Layer: 0
@@ -236,22 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b31185973f49599c4d6f80bec635a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidHealthUI: {fileID: 864525028891881785}
+  _text: {fileID: 2923557854423000212}
   asteroidSpeed: 3
---- !u!114 &864525028891881785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5531429702174635596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a99f5a1cf5f47c4a98887b5f670b13c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthTextObject: {fileID: 2923557854423000212}
-  healthText: 
 --- !u!50 &7795154054948966170
 Rigidbody2D:
   serializedVersion: 4
