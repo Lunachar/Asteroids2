@@ -68,7 +68,7 @@ namespace Player
             if (PlayerHealth.GetCurrentHealth() == 0)
             {
                 StartCoroutine(PlayLoseMusicCoroutine());
-                StartCoroutine(LoadLoseScene()); 
+                //StartCoroutine(LoadLoseScene()); 
             }
         }
         private IEnumerator PlayLoseMusicCoroutine()
