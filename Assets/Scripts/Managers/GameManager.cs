@@ -11,7 +11,7 @@ namespace Asteroids2
     public class GameManager:MonoBehaviour
     {
         private GameState gameState;
-        private PlayerModel _playerModel;
+        public PlayerModel _playerModel;
 
         public Button startButton;
         public Button settingsButton;
@@ -102,11 +102,11 @@ namespace Asteroids2
                 }
             }
 
-            if (_playerModel != null && _playerModel.PlayerHealth.GetCurrentHealth() == 0)
-            {
-                    StartCoroutine(PlayLoseMusicCoroutine());
-                    LoadLoseScene();
-            }
+            // if (_playerModel != null && _playerModel.PlayerHealth.GetCurrentHealth() == 0)
+            // {
+            //         StartCoroutine(PlayLoseMusicCoroutine());
+            //         StartCoroutine(LoadLoseScene());
+            // }
             
             
         }
@@ -117,6 +117,7 @@ namespace Asteroids2
             yield return new WaitForSeconds(_musicLenght);
             MusicManagerScript.Instance.PlayLoseMusic();
             Debug.LogError($"-= LOSE MUSIC =-");
+            Destroy(_playerModel.gameObject);
         }
 
 

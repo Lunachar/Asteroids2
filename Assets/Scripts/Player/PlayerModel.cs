@@ -3,6 +3,7 @@ using System.Collections;
 using Asteroids2;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace Player
@@ -34,6 +35,8 @@ namespace Player
         private float timeBetweenShoots = 0.2f; // Time delay between consecutive shots
 
         public Health PlayerHealth;
+        
+        private float _musicLenght;
 
 
         //public static PlayerModel Instance { get; private set; }
@@ -61,6 +64,34 @@ namespace Player
             {
                 _isShooting = false;
             }
+
+            if (PlayerHealth.GetCurrentHealth() == 0)
+            {
+                StartCoroutine(PlayLoseMusicCoroutine());
+                StartCoroutine(LoadLoseScene()); 
+            }
+        }
+        private IEnumerator PlayLoseMusicCoroutine()
+        {
+            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
+            
+            MusicManagerScript.Instance.PlayLoseMusic();
+            yield return new WaitForSeconds(_musicLenght);
+            Debug.LogError($"-= LOSE MUSIC =-");
+            Destroy(gameObject);
+        }
+        private IEnumerator LoadLoseScene()
+        {
+            yield return new WaitForSeconds(1f);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
+    
+            yield return loadOperation;
+
+            MusicManagerScript.Instance.PlayGameMusic();
+            //gameState = GameState.Lose;
+    
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
+            yield return unloadOperation;
         }
 
         private IEnumerator ContinuousShooting()
