@@ -17,6 +17,7 @@ public class MusicManagerScript : MonoBehaviour
     public AudioClip mainMenuMusic;
     public AudioClip gameMusic;
     public AudioClip loseMusic;
+    public AudioClip winMusic;
 
     private void Awake()
     {
@@ -53,5 +54,12 @@ public class MusicManagerScript : MonoBehaviour
         AudioSource.clip = loseMusic;
         AudioSource.loop = false;
         AudioSource.PlayOneShot(loseMusic);
+    }
+    
+    public void PlayWinMusic()
+    {
+        AudioSource.clip = winMusic;
+        AudioSource.loop = false;
+        AudioSource.PlayOneShot(winMusic);
     }
 }

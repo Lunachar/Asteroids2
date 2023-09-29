@@ -3,6 +3,7 @@ using System.Collections;
 using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Asteroids2
 {
@@ -33,12 +34,18 @@ namespace Asteroids2
         private float _nextShootTime = 1;
         private int _shootNumber;
 
+        public GameManager gameManager;
+        private float _musicLenght;
+        private bool hasWon;
+        
+
 
         public override int ScoreValue => 500;
 
         private void Awake()
         {
             laserLine = GetComponent<LineRenderer>();
+            gameManager = GetComponent<GameManager>();
         }
 
         void Start()
@@ -61,7 +68,10 @@ namespace Asteroids2
 
             _bossHp = _bossHealth.GetCurrentHealth();
             bossHp.text = _bossHp.ToString();
+
         }
+
+
 
         public override void SetTarget()
         {
@@ -82,6 +92,8 @@ namespace Asteroids2
             _bossHealth.takeDamage(damageAmount); // Reduce Boss's health when it takes damage
             if (_bossHealth.GetCurrentHealth() <= 0)
             {
+                gameManager.boosDieFlag = true;
+                Debug.LogError($"{gameManager.boosDieFlag.ToString()}");
                 Die(); // Destroy the Bos when its health reaches zero
                 DisplayUIManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
             }
@@ -146,10 +158,11 @@ namespace Asteroids2
                         laserLine.SetPosition(1, hit.point*2);
                         _target.GetComponent<PlayerModel>().PlayerHealth.takeDamage(30);
                         Debug.LogError($"takeDamage {_target.GetComponent<PlayerModel>().PlayerHealth.GetCurrentHealth().ToString()}");
-                        Debug.Log($"RayCast");
+                        
                     }
                     else
                     {
+                        Debug.Log($"MISSING");
                         laserLine.SetPosition(1, rayOrigin + (direction * gunRange));
                     }
             

@@ -727,6 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bf504e4e84459a02d34d81536c829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerModel: {fileID: -1846366587225407137, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
   startButton: {fileID: 1241822978}
   settingsButton: {fileID: 558981676}
 --- !u!114 &1742671725
@@ -744,6 +745,7 @@ MonoBehaviour:
   mainMenuMusic: {fileID: 8300000, guid: 251750c71a5914b4e8c8909c8c25e7be, type: 3}
   gameMusic: {fileID: 8300000, guid: 6acbeb16c2c37a94f808115e975a676d, type: 3}
   loseMusic: {fileID: 8300000, guid: adadc5889b17d2b4eb0c1a2f8f30006a, type: 3}
+  winMusic: {fileID: 8300000, guid: 7f16a7b5d159f91428f69e2e33818d8a, type: 3}
 --- !u!4 &1742671726
 Transform:
   m_ObjectHideFlags: 0

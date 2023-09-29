@@ -17,6 +17,7 @@ namespace Asteroids2
         public Button settingsButton;
 
         private float _musicLenght;
+        internal bool boosDieFlag;
 
         
         //private int _playerScore;
@@ -71,18 +72,6 @@ namespace Asteroids2
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("MainMenuScene");
             yield return unloadOperation;
         }
-        private IEnumerator LoadLoseScene()
-        {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
-    
-            yield return loadOperation;
-
-            MusicManagerScript.Instance.PlayGameMusic();
-            gameState = GameState.Lose;
-    
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
-            yield return unloadOperation;
-        }
 
         private void Update()
         {
@@ -101,25 +90,27 @@ namespace Asteroids2
                     gameState = GameState.Game;
                 }
             }
-
-            // if (_playerModel != null && _playerModel.PlayerHealth.GetCurrentHealth() == 0)
-            // {
-            //         StartCoroutine(PlayLoseMusicCoroutine());
-            //         StartCoroutine(LoadLoseScene());
-            // }
-            
-            
+            if (boosDieFlag)
+            {
+                //hasWon = true;
+                WinGame();
+            }
         }
-
-        private IEnumerator PlayLoseMusicCoroutine()
+        private void WinGame()
         {
-            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
-            yield return new WaitForSeconds(_musicLenght);
-            MusicManagerScript.Instance.PlayLoseMusic();
-            Debug.LogError($"-= LOSE MUSIC =-");
-            Destroy(_playerModel.gameObject);
+            MusicManagerScript.Instance.PlayWinMusic();
+            StartCoroutine(LoadWinScene());
         }
 
-
+        private IEnumerator LoadWinScene()
+        {
+            _musicLenght = MusicManagerScript.Instance.winMusic.length;
+            Debug.LogError($"::::: {_musicLenght} :::::");
+            yield return new WaitForSeconds(_musicLenght);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("WinScene", LoadSceneMode.Additive);
+            yield return loadOperation;
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
+            yield return unloadOperation;
+        }
     }
 }

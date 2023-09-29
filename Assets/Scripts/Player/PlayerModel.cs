@@ -37,6 +37,7 @@ namespace Player
         public Health PlayerHealth;
         
         private float _musicLenght;
+        private bool hasLost;
 
 
         //public static PlayerModel Instance { get; private set; }
@@ -65,34 +66,31 @@ namespace Player
                 _isShooting = false;
             }
 
-            if (PlayerHealth.GetCurrentHealth() == 0)
+            if (PlayerHealth.GetCurrentHealth() == 0 && !hasLost)
             {
-                StartCoroutine(PlayLoseMusicCoroutine());
-                //StartCoroutine(LoadLoseScene()); 
+                hasLost = true;
+                LoseGame();
             }
         }
-        private IEnumerator PlayLoseMusicCoroutine()
+
+        private void LoseGame()
         {
-            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
-            
             MusicManagerScript.Instance.PlayLoseMusic();
-            yield return new WaitForSeconds(_musicLenght);
             Debug.LogError($"-= LOSE MUSIC =-");
-            Destroy(gameObject);
+            StartCoroutine(LoadLoseScene());
         }
+
         private IEnumerator LoadLoseScene()
         {
-            yield return new WaitForSeconds(1f);
+            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
+            Debug.LogError($"::::: {_musicLenght} :::::");
+            yield return new WaitForSeconds(_musicLenght);
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
-    
             yield return loadOperation;
-
-            MusicManagerScript.Instance.PlayGameMusic();
-            //gameState = GameState.Lose;
-    
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
         }
+
 
         private IEnumerator ContinuousShooting()
         {
