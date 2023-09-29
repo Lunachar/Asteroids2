@@ -14,23 +14,10 @@ namespace Asteroids2
         private float _startTime;           // Time when the asteroid was created
         private int _asteroidHp;
         
-        public TextMeshProUGUI _text;
+        public TextMeshProUGUI asteroidHp;
         public float asteroidSpeed = 1f;         // Speed at which the asteroid moves
         public override int ScoreValue => 100;   // Score value awarded when the asteroid is destroyed
 
-        //public static Asteroid Instance { get; private set; }
-
-        // private void Awake()
-        // {
-        //     if (Instance == null)
-        //     {
-        //         Instance = this;
-        //     }
-        //     else
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        // }
 
         private void Start()
         {
@@ -45,7 +32,7 @@ namespace Asteroids2
         private void Update()
         {
             _asteroidHp = CurrentAsteroidHealth;
-            _text.text = _asteroidHp.ToString();
+            asteroidHp.text = _asteroidHp.ToString();
             float currentTime = Time.time;
             float elapsedTime = currentTime - _startTime;
 

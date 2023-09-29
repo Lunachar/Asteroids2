@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ namespace Asteroids2
         private Vector3 _initialPosition;     // For storing the start vertical position
         private int _barrelHp;
 
-        public Text _text;
+        public TextMeshProUGUI barrelHp;
         //public barrelHealthUI barrelHealthUI; // UI component for displaying barrel health
         public float barrelSpeed = 15f;           // Speed at which the barrel moves
         public float barrelRotationSpeed = 80f;  // Speed at which the barrel rotates
@@ -35,7 +36,7 @@ namespace Asteroids2
         private void Update()
         {
             _barrelHp = CurrentBarrelHealth;
-            _text.text = _barrelHp.ToString();
+            barrelHp.text = _barrelHp.ToString();
             float currentTime = Time.time;
             float elapsedTime = currentTime - _startTime;
 

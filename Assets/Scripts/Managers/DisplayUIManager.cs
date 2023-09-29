@@ -11,20 +11,12 @@ public class DisplayUIManager : MonoBehaviour
 {
     public Text scroreText;         // Reference to the UI text element for displaying the score
     public Text playerHPText;
-    // public Text asteroidHPText;
-    // //public Text barrelHPText;
-    // public Text BossHpText;
     
     public PlayerModel _playerModel;
-    // public Asteroid _asteroid;
-    // public Barrel _barrel;
     
     public int initialScore = 0;  // Initial score value
     private static int score = 0;  // Static variable to store the player's score
     private static int _playerHp;
-    // public static int _asteroidHp;
-    // private static int _barrelHp;
-
 
     private void Start()
     {
@@ -34,7 +26,6 @@ public class DisplayUIManager : MonoBehaviour
     public void Update()
     {
         _playerHp = _playerModel.PlayerHealth.GetCurrentHealth();
-        //_asteroidHp = _asteroid.Health.GetCurrentHealth();
         
         // Update the UI text element to display the current score
         scroreText.text = $"Score: " + GetScore();

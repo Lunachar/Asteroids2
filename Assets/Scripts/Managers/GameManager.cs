@@ -102,13 +102,10 @@ namespace Asteroids2
                 }
             }
 
-            if (_playerModel != null && _playerModel.PlayerHealth != null)
+            if (_playerModel != null && _playerModel.PlayerHealth.GetCurrentHealth() == 0)
             {
-                if (_playerModel.PlayerHealth.GetCurrentHealth() == 0)
-                {
                     StartCoroutine(PlayLoseMusicCoroutine());
                     LoadLoseScene();
-                }
             }
             
             
@@ -119,6 +116,7 @@ namespace Asteroids2
             _musicLenght = MusicManagerScript.Instance.loseMusic.length;
             yield return new WaitForSeconds(_musicLenght);
             MusicManagerScript.Instance.PlayLoseMusic();
+            Debug.LogError($"-= LOSE MUSIC =-");
         }
 
 

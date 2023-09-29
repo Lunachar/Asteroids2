@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Player;
+using TMPro;
 using UnityEngine;
 
 namespace Asteroids2
@@ -12,6 +13,7 @@ namespace Asteroids2
         public float gunRange = 50f;
         public float fireRate = 1f;
         public float laserDuration = 0.05f;
+        public TextMeshProUGUI bossHp;
 
         private LineRenderer laserLine;
         private float fireTimer;
@@ -20,6 +22,7 @@ namespace Asteroids2
         private Rigidbody2D _rb;
         private float _startTime;
         private Vector3 _initialPosition;
+        private int _bossHp;
 
         private bool _isMoving = true;
         private static bool _isShooting = false;
@@ -43,7 +46,6 @@ namespace Asteroids2
             _startTime = Time.time;
             _bossHealth = new Health(500);
             _rb = GetComponent<Rigidbody2D>();
-            //_playerModel = GPlayerModel;
         }
 
         void Update()
@@ -56,6 +58,9 @@ namespace Asteroids2
             Shoot();
 
             Rotate();
+
+            _bossHp = _bossHealth.GetCurrentHealth();
+            bossHp.text = _bossHp.ToString();
         }
 
         public override void SetTarget()

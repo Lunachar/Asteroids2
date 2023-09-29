@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b31185973f49599c4d6f80bec635a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 2923557854423000212}
+  asteroidHp: {fileID: 2923557854423000212}
   asteroidSpeed: 3
 --- !u!50 &7795154054948966170
 Rigidbody2D:
