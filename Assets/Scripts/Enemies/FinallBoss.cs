@@ -36,7 +36,7 @@ namespace Asteroids2
 
         public GameManager gameManager;
         private float _musicLenght;
-        private bool hasWon;
+        private GameObject playerModel;
         
 
 
@@ -45,7 +45,7 @@ namespace Asteroids2
         private void Awake()
         {
             laserLine = GetComponent<LineRenderer>();
-            gameManager = GetComponent<GameManager>();
+            gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
         }
 
         void Start()
@@ -53,18 +53,22 @@ namespace Asteroids2
             _startTime = Time.time;
             _bossHealth = new Health(500);
             _rb = GetComponent<Rigidbody2D>();
+            playerModel = GameObject.FindWithTag("Player");
         }
 
         void Update()
         {
             _initialPosition = transform.position;
 
-            SetTarget(); // Set the target for the Boss
+            if (playerModel)
+            {
+                SetTarget(); // Set the target for the Boss
 
-            Move();
-            Shoot();
+                Move();
+                Shoot();
 
-            Rotate();
+                Rotate();
+            }
 
             _bossHp = _bossHealth.GetCurrentHealth();
             bossHp.text = _bossHp.ToString();
@@ -75,8 +79,7 @@ namespace Asteroids2
 
         public override void SetTarget()
         {
-            _target = GameObject.FindWithTag("Player")
-                .GetComponent<Transform>(); // Find and set the player as the target
+            _target = playerModel.transform; // Find and set the player as the target
         }
 
         private void FaceTarget()
@@ -93,9 +96,10 @@ namespace Asteroids2
             if (_bossHealth.GetCurrentHealth() <= 0)
             {
                 gameManager.boosDieFlag = true;
+                _isShooting = false;
                 Debug.LogError($"{gameManager.boosDieFlag.ToString()}");
-                Die(); // Destroy the Bos when its health reaches zero
                 DisplayUIManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
+                Die(); // Destroy the Bos when its health reaches zero
             }
         }
 

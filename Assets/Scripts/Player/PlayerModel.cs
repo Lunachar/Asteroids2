@@ -35,9 +35,12 @@ namespace Player
         private float timeBetweenShoots = 0.2f; // Time delay between consecutive shots
 
         public Health PlayerHealth;
+        public GameManager gameManager;
         
         private float _musicLenght;
-        private bool hasLost;
+
+        private int _dieCounter;
+        //private bool hasLost;
 
 
         //public static PlayerModel Instance { get; private set; }
@@ -45,6 +48,7 @@ namespace Player
         {
             _rb = GetComponent<Rigidbody2D>();
             PlayerHealth = new Health(100);
+            gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
         }
 
         private void Update()
@@ -66,30 +70,14 @@ namespace Player
                 _isShooting = false;
             }
 
-            if (PlayerHealth.GetCurrentHealth() == 0 && !hasLost)
+            if (PlayerHealth.GetCurrentHealth() <= 0 && _dieCounter == 0)
             {
-                hasLost = true;
-                LoseGame();
+                gameManager.playerDieFlag = true;
+                _dieCounter = 1;
             }
         }
 
-        private void LoseGame()
-        {
-            MusicManagerScript.Instance.PlayLoseMusic();
-            Debug.LogError($"-= LOSE MUSIC =-");
-            StartCoroutine(LoadLoseScene());
-        }
 
-        private IEnumerator LoadLoseScene()
-        {
-            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
-            Debug.LogError($"::::: {_musicLenght} :::::");
-            yield return new WaitForSeconds(_musicLenght);
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
-            yield return loadOperation;
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
-            yield return unloadOperation;
-        }
 
 
         private IEnumerator ContinuousShooting()

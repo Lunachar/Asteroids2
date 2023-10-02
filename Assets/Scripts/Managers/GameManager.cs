@@ -11,19 +11,19 @@ namespace Asteroids2
     public class GameManager:MonoBehaviour
     {
         private GameState gameState;
-        public PlayerModel _playerModel;
 
         public Button startButton;
         public Button settingsButton;
 
         private float _musicLenght;
         internal bool boosDieFlag;
+        internal bool playerDieFlag;
 
-        
-        //private int _playerScore;
-        //private int _playerHp;
-        //private float _asteroidGamePlay;
-        //private float _barrelGamePlay;
+        private float _timeToCompletGame;
+        private float _startGameTime;
+        private float _endGameTime;
+        internal float _elapsedGameTime;
+
 
         private void Awake()
         {
@@ -63,6 +63,7 @@ namespace Asteroids2
         private IEnumerator LoadGameScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Additive);
+            _startGameTime = Time.realtimeSinceStartup;
     
             yield return loadOperation;
 
@@ -92,12 +93,22 @@ namespace Asteroids2
             }
             if (boosDieFlag)
             {
-                //hasWon = true;
-                WinGame();
+               WinGame();
+               boosDieFlag = false;
+            }
+
+            if (playerDieFlag)
+            {
+                LoseGame();
+                playerDieFlag = false;
             }
         }
         private void WinGame()
         {
+            _endGameTime = Time.realtimeSinceStartup;
+            _elapsedGameTime = (_endGameTime - _startGameTime);
+            Debug.LogError($"!!!!!!!! {_elapsedGameTime} !!!!!!");
+
             MusicManagerScript.Instance.PlayWinMusic();
             StartCoroutine(LoadWinScene());
         }
@@ -106,8 +117,27 @@ namespace Asteroids2
         {
             _musicLenght = MusicManagerScript.Instance.winMusic.length;
             Debug.LogError($"::::: {_musicLenght} :::::");
-            yield return new WaitForSeconds(_musicLenght);
+            yield return new WaitForSeconds(_musicLenght - 3f);
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("WinScene", LoadSceneMode.Additive);
+            yield return loadOperation;
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
+            yield return unloadOperation;
+        }
+        private void LoseGame()
+        {
+            PlayerModel playerModel = GameObject.Find("Player").GetComponent<PlayerModel>();
+            Destroy(playerModel.gameObject);
+            MusicManagerScript.Instance.PlayLoseMusic();
+            Debug.LogError($"-= LOSE MUSIC =-");
+            StartCoroutine(LoadLoseScene());
+        }
+
+        private IEnumerator LoadLoseScene()
+        {
+            _musicLenght = MusicManagerScript.Instance.loseMusic.length;
+            Debug.LogError($"::::: {_musicLenght} :::::");
+            yield return new WaitForSeconds(_musicLenght);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
             yield return loadOperation;
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
