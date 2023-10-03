@@ -10,6 +10,7 @@ namespace Asteroids2
 {
     public class GameManager:MonoBehaviour
     {
+        public HighScoreManager highScoreManager;
         private GameState gameState;
 
         public Button startButton;
@@ -32,6 +33,7 @@ namespace Asteroids2
 
         private void Start()
         {
+            _elapsedGameTime = 0;
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
             
@@ -120,6 +122,7 @@ namespace Asteroids2
             yield return new WaitForSeconds(_musicLenght - 3f);
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("WinScene", LoadSceneMode.Additive);
             yield return loadOperation;
+            
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
         }
