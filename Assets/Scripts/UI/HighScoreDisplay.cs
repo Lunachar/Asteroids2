@@ -15,61 +15,67 @@ namespace Asteroids2.UI
         public HighScoreManager highScoreManager;
         public GameManager gameManager;
         private float _gameTime;
-        private bool _isHighScore;
+        private bool _isRebuilded;
 
         string _text = "High Scores: \n";
 
         private void Start()
         {
-            playerNameInput.onEndEdit.AddListener(UpdateHighScoreText);
             highScoreManager = GetComponent<HighScoreManager>();
             gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
+            _gameTime = gameManager._elapsedGameTime;
             currentTimeText.text = $"your time is: {gameManager._elapsedGameTime.ToString()}";
-
-            _isHighScore = highScoreManager.AddHighScore(playerNameInput.text, _gameTime);
-
-
-
             
-
+            highScoreManager.LoadHighScores();
+            Debug.LogError($"Start: {highScoreManager.IsHighScore(_gameTime).ToString()}");
+            if (!highScoreManager.IsHighScore(_gameTime))
+            {
+                playerNameInput.interactable = false;
+                saveButton.interactable = false;
+            }
+            
+            
             saveButton.onClick.AddListener(SaveHighScore);
+            playerNameInput.onEndEdit.AddListener(UpdateHighScoreText);
+            UpdateHighScoreText("");
         }
 
-        // private void Update()
-        // {
-        //     highScoreText.text = highScores.ToString();
-        // }
+        private void Update()
+        {
+            if (!_isRebuilded)
+            {
+                highScoreText.text = _text;
+            }
+        }
 
         private void SaveHighScore()
         {
-            //string playerName = playerNameInput.text;
-            _gameTime = gameManager._elapsedGameTime;
-
-            if (_isHighScore)
-            {
-                RebuildHighScoreText();
-            }
-            //highScoreManager.AddHighScore(playerName, gameTime);
+            highScoreManager.AddHighScore(playerNameInput.text, _gameTime);
+            _text = RebuildHighScoreText();
+            _isRebuilded = true;
             playerNameInput.interactable = false;
             saveButton.interactable = false;
         }
 
-        private void RebuildHighScoreText()
+        private string RebuildHighScoreText()
         {
-            _text = "Hihg Scores: \n";
-            
+            _text = "High Scores: \n";
+            int i = 1;
             foreach (HighScoreManager.HighScoreEntry entry in highScoreManager.highScores)
             {
-                _text += $"{entry.playerName}: {entry.gameTime}\n";
+                _text += $"{i}. {entry.playerName}: {entry.gameTime}\n";
+                i++;
             }
 
-            highScoreText.text = _text;
+            return _text;
         }
 
         private void UpdateHighScoreText(string newPlayerName)
         {
-            _text += $"{newPlayerName}: {gameManager._elapsedGameTime}\n";
-            highScoreText.text = _text;
+            if (highScoreManager.IsHighScore(_gameTime))
+            {
+                highScoreText.text = RebuildHighScoreText();
+            }
         }
     }
 }

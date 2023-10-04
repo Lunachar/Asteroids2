@@ -23,7 +23,20 @@ public class HighScoreManager : MonoBehaviour
         LoadHighScores();
     }
 
-    public bool AddHighScore(string playerName, float gameTime)
+    public bool IsHighScore(float gameTime)
+    {
+        foreach (var VARIABLE in highScores)
+        {
+            Debug.LogError($"IsHighScore: {VARIABLE.gameTime} :: {highScores.Capacity}");
+            if (gameTime < VARIABLE.gameTime && highScores.Capacity < 10)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddHighScore(string playerName, float gameTime)
     {
         HighScoreEntry newEntry = new HighScoreEntry {playerName = playerName, gameTime = gameTime};
         highScores.Add(newEntry);
@@ -36,11 +49,10 @@ public class HighScoreManager : MonoBehaviour
             highScores.RemoveRange(maxHighScores, highScores.Count - maxHighScores);
         }
 
-        //SaveHighScores();
-        return highScores.Contains(newEntry);
+        SaveHighScores();
     }
 
-    private void LoadHighScores()
+    internal void LoadHighScores()
     {
         string filePath = Path.Combine(Application.persistentDataPath, highScoreFileName);
         if (File.Exists(filePath))
