@@ -8,7 +8,7 @@ using Asteroids2;
 public class HighScoreManager : MonoBehaviour
 {
     private const String highScoreFileName = "highscore.json";
-
+    
     public List<HighScoreEntry> highScores;
 
     [Serializable]
@@ -25,15 +25,17 @@ public class HighScoreManager : MonoBehaviour
 
     public bool IsHighScore(float gameTime)
     {
-        foreach (var VARIABLE in highScores)
+        bool isHighScore = false;
+        foreach (var entry in highScores)
         {
-            Debug.LogError($"IsHighScore: {VARIABLE.gameTime} :: {highScores.Capacity}");
-            if (gameTime < VARIABLE.gameTime && highScores.Capacity < 10)
+            Debug.LogError($"IsHighScore: {entry.gameTime} :: {highScores.Capacity}");
+            if (gameTime < entry.gameTime || highScores.Capacity < 10)
             {
-                return true;
+                isHighScore = true;
+                break;
             }
         }
-        return false;
+        return isHighScore;
     }
 
     public void AddHighScore(string playerName, float gameTime)

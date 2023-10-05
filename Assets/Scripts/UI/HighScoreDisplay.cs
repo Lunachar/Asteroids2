@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,10 +13,14 @@ namespace Asteroids2.UI
         public TMP_Text currentTimeText;
         public TMP_InputField playerNameInput;
         public Button saveButton;
+        public Button backToGame;
         public HighScoreManager highScoreManager;
         public GameManager gameManager;
         private float _gameTime;
+        
         private bool _isRebuilded;
+        private bool _isNameEntered;
+        private bool _isSaveButtonPressed;
 
         string _text = "High Scores: \n";
 
@@ -28,31 +33,42 @@ namespace Asteroids2.UI
             
             highScoreManager.LoadHighScores();
             Debug.LogError($"Start: {highScoreManager.IsHighScore(_gameTime).ToString()}");
+            
+            
             if (!highScoreManager.IsHighScore(_gameTime))
             {
                 playerNameInput.interactable = false;
                 saveButton.interactable = false;
             }
-            
-            
-            saveButton.onClick.AddListener(SaveHighScore);
-            playerNameInput.onEndEdit.AddListener(UpdateHighScoreText);
-            UpdateHighScoreText("");
+            saveButton.onClick.AddListener(OnSaveButtonPressed);
+            backToGame.onClick.AddListener(BackToGame);
+            playerNameInput.onEndEdit.AddListener(OnPlayerNameEntered);
+            StartCoroutine(HighScorePresent());
         }
 
         private void Update()
         {
-            if (!_isRebuilded)
-            {
-                highScoreText.text = _text;
-            }
+
+        }
+
+        private void OnPlayerNameEntered(string playerName) => _isNameEntered = true;
+
+        private void OnSaveButtonPressed() => _isSaveButtonPressed = true;
+
+        private IEnumerator HighScorePresent()
+        {
+            yield return new WaitForSeconds(1f);
+            highScoreText.text = RebuildHighScoreText();
+            yield return new WaitUntil(() => _isNameEntered || _isSaveButtonPressed);
+            SaveHighScore();
+            yield return new WaitForSeconds(0.5f);
+            highScoreText.text = RebuildHighScoreText();
         }
 
         private void SaveHighScore()
         {
             highScoreManager.AddHighScore(playerNameInput.text, _gameTime);
-            _text = RebuildHighScoreText();
-            _isRebuilded = true;
+
             playerNameInput.interactable = false;
             saveButton.interactable = false;
         }
@@ -66,16 +82,12 @@ namespace Asteroids2.UI
                 _text += $"{i}. {entry.playerName}: {entry.gameTime}\n";
                 i++;
             }
-
             return _text;
         }
 
-        private void UpdateHighScoreText(string newPlayerName)
+        private void BackToGame()
         {
-            if (highScoreManager.IsHighScore(_gameTime))
-            {
-                highScoreText.text = RebuildHighScoreText();
-            }
+            StartCoroutine(gameManager.StartMainMenu());
         }
     }
 }

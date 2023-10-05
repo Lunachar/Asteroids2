@@ -50,6 +50,14 @@ namespace Asteroids2
             gameState = GameState.MainMenu;
         }
 
+        internal IEnumerator StartMainMenu()
+        {
+            SceneManager.LoadScene("MainMenuScene");
+            //StartCoroutine(LoadMainMenu());
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("WinScene");
+            yield return unloadOperation;
+        }
+
         private void StartGame()
         {
             //SceneManager.UnloadSceneAsync("MainMenuScene");
@@ -122,7 +130,7 @@ namespace Asteroids2
             yield return new WaitForSeconds(_musicLenght - 3f);
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("WinScene", LoadSceneMode.Additive);
             yield return loadOperation;
-            
+            gameState = GameState.Win;
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
         }
@@ -142,6 +150,7 @@ namespace Asteroids2
             yield return new WaitForSeconds(_musicLenght);
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoseScene", LoadSceneMode.Additive);
             yield return loadOperation;
+            gameState = GameState.Lose;
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
         }
