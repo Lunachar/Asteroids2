@@ -472,19 +472,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1241822979}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.Buttons.StartButton, Assembly-CSharp
-        m_MethodName: LoadGameScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1241822979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,6 +523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ec1208de204853948938f137353977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 1241822978}
+  gameManager: {fileID: 1742671724}
 --- !u!1 &1373863572
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bf504e4e84459a02d34d81536c829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerModel: {fileID: -1846366587225407137, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+  highScoreManager: {fileID: 0}
   startButton: {fileID: 1241822978}
   settingsButton: {fileID: 558981676}
 --- !u!114 &1742671725

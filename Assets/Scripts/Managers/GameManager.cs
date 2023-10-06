@@ -4,7 +4,9 @@ using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UI.Buttons;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Object = System.Object;
 
 namespace Asteroids2
 {
@@ -12,6 +14,9 @@ namespace Asteroids2
     {
         public HighScoreManager highScoreManager;
         private GameState gameState;
+        private Scene _currentGameScene;
+        private EventSystem _eventSystem;
+        private AudioListener[] _audioListeners;
 
         public Button startButton;
         public Button settingsButton;
@@ -36,8 +41,6 @@ namespace Asteroids2
             _elapsedGameTime = 0;
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
-            
-            startButton.onClick.AddListener(StartGame);
             settingsButton.onClick.AddListener(OpenSettings);
         }
 
@@ -52,15 +55,17 @@ namespace Asteroids2
 
         internal IEnumerator StartMainMenu()
         {
+            _currentGameScene = SceneManager.GetActiveScene();
+            Debug.LogError($"here 1");
+            _eventSystem = FindObjectOfType<EventSystem>();
             SceneManager.LoadScene("MainMenuScene");
-            //StartCoroutine(LoadMainMenu());
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("WinScene");
-            yield return unloadOperation;
+            yield return StartCoroutine(LoadMainMenu());
+            SceneManager.UnloadSceneAsync(_currentGameScene);
+            Debug.LogError($"here 2");
         }
 
-        private void StartGame()
+        public void StartGame()
         {
-            //SceneManager.UnloadSceneAsync("MainMenuScene");
             StartCoroutine(LoadGameScene());
         }
 
@@ -86,6 +91,7 @@ namespace Asteroids2
 
         private void Update()
         {
+            OnlyOneAudioListenerIsEnabled();
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (gameState == GameState.Game)
@@ -153,6 +159,24 @@ namespace Asteroids2
             gameState = GameState.Lose;
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
+        }
+
+        private void OnlyOneAudioListenerIsEnabled()
+        {
+            _audioListeners = FindObjectsOfType<AudioListener>();
+
+            if (_audioListeners.Length > 1)
+            {
+                for (int i = 1; i < _audioListeners.Length; i++)
+                {
+                    _audioListeners[i].enabled = false;
+                }
+            }
+
+            if (_audioListeners.Length > 0)
+            {
+                _audioListeners[0].enabled = true;
+            }
         }
     }
 }
