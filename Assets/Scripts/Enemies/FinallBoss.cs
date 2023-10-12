@@ -45,7 +45,7 @@ namespace Asteroids2
         private void Awake()
         {
             laserLine = GetComponent<LineRenderer>();
-            gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
+            gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
         }
 
         void Start()
@@ -145,7 +145,6 @@ namespace Asteroids2
             {
 
                 fireTimer += Time.deltaTime;
-                Debug.Log($"fireTimer: {fireTimer.ToString()}; fireRate: {fireRate.ToString()}");
                 if (fireTimer > fireRate)
                 {
                     Debug.Log($"fireTimer > fireRate");
@@ -159,9 +158,9 @@ namespace Asteroids2
 
                     if (hit.collider.gameObject == _target.gameObject)
                     {
-                        laserLine.SetPosition(1, hit.point*2);
+                        laserLine.SetPosition(1, hit.point);
                         _target.GetComponent<PlayerModel>().PlayerHealth.takeDamage(30);
-                        Debug.LogError($"takeDamage {_target.GetComponent<PlayerModel>().PlayerHealth.GetCurrentHealth().ToString()}");
+                        //Debug.LogError($"takeDamage {_target.GetComponent<PlayerModel>().PlayerHealth.GetCurrentHealth().ToString()}");
                         
                     }
                     else
@@ -170,7 +169,7 @@ namespace Asteroids2
                         laserLine.SetPosition(1, rayOrigin + (direction * gunRange));
                     }
             
-                    StartCoroutine(ShootLaser());
+                    //StartCoroutine(ShootLaser());
                 }
 
 
@@ -187,10 +186,10 @@ namespace Asteroids2
             laserLine.enabled = false;
         }
 
-        IEnumerator waiter()
-        {
-            yield return new WaitForSeconds(2f);
-        }
+        // IEnumerator waiter()
+        // {
+        //     yield return new WaitForSeconds(2f);
+        // }
 
         private void OnDrawGizmos()
         {
@@ -201,8 +200,8 @@ namespace Asteroids2
                 Vector3 lineEnd = _target.position;
                 Gizmos.DrawLine(transform.position, _target.position);
 
-                float distance = Vector3.Distance(lineStart, lineEnd);
-                Debug.Log($"DISTANCE IS: {distance}");
+                // float distance = Vector3.Distance(lineStart, lineEnd);
+                // Debug.Log($"DISTANCE IS: {distance}");
             }
         }
     }

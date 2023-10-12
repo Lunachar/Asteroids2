@@ -699,7 +699,7 @@ GameObject:
   - component: {fileID: 1742671727}
   - component: {fileID: 1742671728}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: ManagersDDOL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,7 +717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bf504e4e84459a02d34d81536c829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScoreManager: {fileID: 0}
   startButton: {fileID: 1241822978}
   settingsButton: {fileID: 558981676}
 --- !u!114 &1742671725

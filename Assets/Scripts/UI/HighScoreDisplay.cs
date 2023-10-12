@@ -27,7 +27,7 @@ namespace Asteroids2.UI
         private void Start()
         {
             highScoreManager = GetComponent<HighScoreManager>();
-            gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
+            gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
             _gameTime = gameManager._elapsedGameTime;
             currentTimeText.text = $"your time is: {gameManager._elapsedGameTime.ToString()}";
             
@@ -35,14 +35,14 @@ namespace Asteroids2.UI
             Debug.LogError($"Start: {highScoreManager.IsHighScore(_gameTime).ToString()}");
             
             
-            if (!highScoreManager.IsHighScore(_gameTime))
-            {
-                playerNameInput.interactable = false;
-                saveButton.interactable = false;
-            }
+            // if (!highScoreManager.IsHighScore(_gameTime))
+            // {
+            //     playerNameInput.interactable = false;
+            //     saveButton.interactable = false;
+            // }
             saveButton.onClick.AddListener(OnSaveButtonPressed);
-            backToGame.onClick.AddListener(BackToGame);
             playerNameInput.onEndEdit.AddListener(OnPlayerNameEntered);
+            backToGame.onClick.AddListener(BackToGame);
             StartCoroutine(HighScorePresent());
         }
 
@@ -59,6 +59,7 @@ namespace Asteroids2.UI
         {
             yield return new WaitForSeconds(1f);
             highScoreText.text = RebuildHighScoreText();
+            yield return new WaitForSeconds(0.1f);
             yield return new WaitUntil(() => _isNameEntered || _isSaveButtonPressed);
             SaveHighScore();
             yield return new WaitForSeconds(0.5f);

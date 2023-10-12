@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Asteroids2;
 
 public class HighScoreManager : MonoBehaviour
 {
-    private const String highScoreFileName = "highscore.json";
+    private const string highScoreFileName = "highscore.json";
     
     public List<HighScoreEntry> highScores;
 
@@ -25,17 +23,16 @@ public class HighScoreManager : MonoBehaviour
 
     public bool IsHighScore(float gameTime)
     {
-        bool isHighScore = false;
+        //Debug.LogError($"{highScoreFileName}, {highScores.Capacity.ToString()}, {highScores.FindLastIndex(null!).ToString()}");
         foreach (var entry in highScores)
         {
             Debug.LogError($"IsHighScore: {entry.gameTime} :: {highScores.Capacity}");
             if (gameTime < entry.gameTime || highScores.Capacity < 10)
             {
-                isHighScore = true;
-                break;
+                return true;
             }
         }
-        return isHighScore;
+        return false;
     }
 
     public void AddHighScore(string playerName, float gameTime)
@@ -56,15 +53,21 @@ public class HighScoreManager : MonoBehaviour
 
     internal void LoadHighScores()
     {
+        Debug.Log($"DataPath: {Application.persistentDataPath}");
+        Debug.Log($"FileName: {highScoreFileName}");
         string filePath = Path.Combine(Application.persistentDataPath, highScoreFileName);
+        Debug.LogError($"FullPath: {filePath}");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
+            Debug.LogError($"{json}");
             highScores = JsonUtility.FromJson<HighScoreData>(json).entries;
+            Debug.LogError($"{highScores.Capacity}, {highScores.Count}");
         }
         else
         {
             highScores = new List<HighScoreEntry>();
+            Debug.LogError($"{highScores.Capacity}");
         }
     }
 

@@ -48,7 +48,7 @@ namespace Player
         {
             _rb = GetComponent<Rigidbody2D>();
             PlayerHealth = new Health(100);
-            gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
+            gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
         }
 
         private void Update()
@@ -165,5 +165,9 @@ namespace Player
             }
         }
 
+        // private void OnTriggerEnter(Collider col)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }

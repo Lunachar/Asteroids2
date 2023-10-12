@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Asteroids2;
 using Player;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class DisplayUIManager : MonoBehaviour
 {
     public Text scroreText;         // Reference to the UI text element for displaying the score
     public Text playerHPText;
+    public Text time;
+    public GameManager gameManager;
     
     public PlayerModel _playerModel;
     
@@ -20,6 +23,7 @@ public class DisplayUIManager : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
         score = initialScore;
     }
 
@@ -30,6 +34,9 @@ public class DisplayUIManager : MonoBehaviour
         // Update the UI text element to display the current score
         scroreText.text = $"Score: " + GetScore();
         playerHPText.text = $"HP: {_playerHp}";
+        time.text = gameManager.ElapsedTime().ToString();
+
+        
     }
 
     // Add points to the player's score

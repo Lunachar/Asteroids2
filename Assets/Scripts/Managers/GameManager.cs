@@ -12,11 +12,12 @@ namespace Asteroids2
 {
     public class GameManager:MonoBehaviour
     {
-        public HighScoreManager highScoreManager;
+        // public HighScoreManager highScoreManager;
         private GameState gameState;
         private Scene _currentGameScene;
-        private EventSystem _eventSystem;
+        //private EventSystem _eventSystem;
         private AudioListener[] _audioListeners;
+        private EventSystem[] _eventSystems;
 
         public Button startButton;
         public Button settingsButton;
@@ -42,6 +43,40 @@ namespace Asteroids2
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
             settingsButton.onClick.AddListener(OpenSettings);
+            // highScoreManager = GetComponent<HighScoreManager>();
+        }
+
+        private void Update()
+        {
+            OnlyOneAudioListenerIsEnabled();
+            OnlyOneEventSystemIsEnabled();
+            
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (gameState == GameState.Game)
+                {
+                    // show settings menu
+                    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+                    gameState = GameState.None;
+                }
+                else if (gameState == GameState.None)
+                {
+                    // back in the game
+                    SceneManager.UnloadSceneAsync("SettingsScene");
+                    gameState = GameState.Game;
+                }
+            }
+            if (boosDieFlag)
+            {
+                WinGame();
+                boosDieFlag = false;
+            }
+
+            if (playerDieFlag)
+            {
+                LoseGame();
+                playerDieFlag = false;
+            }
         }
 
         private IEnumerator LoadMainMenu()
@@ -57,7 +92,7 @@ namespace Asteroids2
         {
             _currentGameScene = SceneManager.GetActiveScene();
             Debug.LogError($"here 1");
-            _eventSystem = FindObjectOfType<EventSystem>();
+            //_eventSystem = FindObjectOfType<EventSystem>();
             SceneManager.LoadScene("MainMenuScene");
             yield return StartCoroutine(LoadMainMenu());
             SceneManager.UnloadSceneAsync(_currentGameScene);
@@ -89,36 +124,6 @@ namespace Asteroids2
             yield return unloadOperation;
         }
 
-        private void Update()
-        {
-            OnlyOneAudioListenerIsEnabled();
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (gameState == GameState.Game)
-                {
-                    // show settings menu
-                    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
-                    gameState = GameState.None;
-                }
-                else if (gameState == GameState.None)
-                {
-                    // back in the game
-                    SceneManager.UnloadSceneAsync("SettingsScene");
-                    gameState = GameState.Game;
-                }
-            }
-            if (boosDieFlag)
-            {
-               WinGame();
-               boosDieFlag = false;
-            }
-
-            if (playerDieFlag)
-            {
-                LoseGame();
-                playerDieFlag = false;
-            }
-        }
         private void WinGame()
         {
             _endGameTime = Time.realtimeSinceStartup;
@@ -177,6 +182,29 @@ namespace Asteroids2
             {
                 _audioListeners[0].enabled = true;
             }
+        }
+
+        private void OnlyOneEventSystemIsEnabled()
+        {
+            _eventSystems = FindObjectsOfType<EventSystem>();
+
+            if (_eventSystems.Length > 1)
+            {
+                for (int i = 1; i < _eventSystems.Length; i++)
+                {
+                    _eventSystems[i].enabled = false;
+                }
+            }
+
+            if (_eventSystems.Length > 0)
+            {
+                _eventSystems[0].enabled = true;
+            }
+        }
+
+        internal float ElapsedTime()
+        {
+            return Time.unscaledTime - _startGameTime;
         }
     }
 }
