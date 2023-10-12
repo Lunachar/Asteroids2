@@ -11,8 +11,10 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip soundPlayerEdgeCollision;
     public AudioClip soundPlayerGunShoot;
+    public AudioClip soundPlayerCollide;
     
-    private bool _isEdgeCollisionSoundPlaying = false;
+    private bool _isEdgeCollisionSoundPlaying;
+    private bool _isPlayerCollidePlaying;
 
     private void Start()
     {
@@ -23,12 +25,14 @@ public class SoundManager : MonoBehaviour
     {
         PlayerModel.OnScreenEdgeCollision += PlayScreenEdgeCollisionSound;
         PlayerModel.PlayerGunShoot += PlayPlayerGunShoot;
+        PlayerModel.PlayerCollide += PlayPlayerCollide;
     }
     
     private void OnDisable()
     {
         PlayerModel.OnScreenEdgeCollision -= PlayScreenEdgeCollisionSound;
         PlayerModel.PlayerGunShoot -= PlayPlayerGunShoot;
+        PlayerModel.PlayerCollide -= PlayPlayerCollide;
     }
 
     private void PlayScreenEdgeCollisionSound()
@@ -44,9 +48,23 @@ public class SoundManager : MonoBehaviour
         _audioSource.PlayOneShot(soundPlayerGunShoot, 0.2f);
     }
 
+    private void PlayPlayerCollide()
+    {
+        if (_isPlayerCollidePlaying) return;
+        _audioSource.PlayOneShot(soundPlayerCollide);
+        _isPlayerCollidePlaying = true;
+        StartCoroutine(WaitForPlayerCollideSound());
+    }
+
     private IEnumerator WaitForEdgeCollisionSound()
     {
         yield return new WaitForSeconds(soundPlayerEdgeCollision.length);
         _isEdgeCollisionSoundPlaying = false;
+    }
+
+    private IEnumerator WaitForPlayerCollideSound()
+    {
+        yield return new WaitForSeconds(soundPlayerCollide.length);
+        _isPlayerCollidePlaying = false;
     }
 }

@@ -11,8 +11,10 @@ namespace Player
     public class PlayerModel : MonoBehaviour, IMove, IRotation, IShoot
     {
         private Rigidbody2D _rb;
+        private Collider2D _col;
         public static event Action OnScreenEdgeCollision;
         public static event Action PlayerGunShoot;
+        public static event Action PlayerCollide;
 
         public Vector2 Position => _rb.position; // Player's current position
         public float Rotation => _rb.rotation; // Player's current rotation angle
@@ -40,10 +42,8 @@ namespace Player
         private float _musicLenght;
 
         private int _dieCounter;
-        //private bool hasLost;
 
 
-        //public static PlayerModel Instance { get; private set; }
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -165,9 +165,18 @@ namespace Player
             }
         }
 
-        // private void OnTriggerEnter(Collider col)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Enemy"))
+            {
+                PlayerCollide?.Invoke();
+                Enemy enemy = col.gameObject.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(5);
+                }
+                PlayerHealth.takeDamage(10);
+            }
+        }
     }
 }
