@@ -113,6 +113,7 @@ namespace Asteroids2
         private IEnumerator LoadGameScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Additive);
+            EnemyManager.IsEnemyOnScene(false);
             _startGameTime = Time.realtimeSinceStartup;
     
             yield return loadOperation;

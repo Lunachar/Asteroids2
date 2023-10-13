@@ -47,8 +47,11 @@ namespace Asteroids2
                     Destroy(); // Destroy the barrel when the specified time has passed
                 }
             }
-            //barrelHealthUI.UpdateHealthText(); // Update the UI for barrel health
-           Move();
+
+            if (_target != null)
+            {
+                Move();
+            }
            
 
         }

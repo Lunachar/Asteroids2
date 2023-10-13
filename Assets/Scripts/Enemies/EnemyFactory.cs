@@ -9,8 +9,10 @@ namespace Asteroids2
     public class EnemyFactory : MonoBehaviour, IEnemyFactory
     {
         private Transform[] _spawnPoints; // Array of spawn points for enemies
-        private GameObject _enemyPrefab; // Prefab for creating enemies
+        internal GameObject _enemyPrefab; // Prefab for creating enemies
         public static EnemyFactory Instance { get; private set; } // Singleton instance of the EnemyFactory
+
+        private GameManager _gameManager;
 
         public event Action OnFinallyEvent;
 
@@ -36,7 +38,8 @@ namespace Asteroids2
         private void Start()
         {
             Instance.OnFinallyEvent += HandleFinallyEvent;
-            
+            _gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
+
         }
 
         private void Update()
@@ -57,7 +60,7 @@ namespace Asteroids2
                 CreateEnemy();
                 EnemyManager.IsEnemyOnScene(true);
             }
-            else if (spawnBoss && !EnemyManager._isEnemyOnScene)
+            else if (spawnBoss && !EnemyManager._isEnemyOnScene && !_gameManager.boosDieFlag)
             {
                 _enemyPrefab = EnemyManager.Instance.bossPrefab;
                 StartCoroutine(ShowAndHide(FinallyDisplay.TextObject, 4f));

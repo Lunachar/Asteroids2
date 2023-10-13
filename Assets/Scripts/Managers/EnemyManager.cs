@@ -43,9 +43,9 @@ namespace Asteroids2
 
         private void Update()
         {
-            // Debug.Log($"Score: {ScoreManager.GetScore()}");
-            // Debug.Log($"spawnAsteroids:  {spawnAsteroids}");
-            // Debug.Log($"_isEnemyOnScene:  {_isEnemyOnScene.ToString()}");
+            Debug.Log($"Score: {DisplayUIManager.GetScore()}");
+            Debug.Log($"spawnAsteroids:  {enemyFactory._enemyPrefab.name}");
+            Debug.Log($"_isEnemyOnScene:  {_isEnemyOnScene.ToString()}");
         }
 
         // Reset the flag to indicate no enemy is on the scene

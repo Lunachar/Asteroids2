@@ -74,6 +74,7 @@ namespace Player
             {
                 gameManager.playerDieFlag = true;
                 _dieCounter = 1;
+                //EnemyManager.IsEnemyOnScene(false);
             }
         }
 

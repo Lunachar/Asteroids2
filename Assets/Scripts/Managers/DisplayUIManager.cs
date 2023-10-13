@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Asteroids2;
 using Player;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class DisplayUIManager : MonoBehaviour
     public int initialScore = 0;  // Initial score value
     private static int score = 0;  // Static variable to store the player's score
     private static int _playerHp;
+    private static float _stopTime;
 
     private void Start()
     {
@@ -34,7 +36,15 @@ public class DisplayUIManager : MonoBehaviour
         // Update the UI text element to display the current score
         scroreText.text = $"Score: " + GetScore();
         playerHPText.text = $"HP: {_playerHp}";
-        time.text = gameManager.ElapsedTime().ToString();
+        if (!gameManager.boosDieFlag || !gameManager.playerDieFlag)
+        {
+            _stopTime = gameManager.ElapsedTime();
+            time.text = _stopTime.ToString();
+        }
+        else
+        {
+            time.text = _stopTime.ToString();
+        }
 
         
     }
