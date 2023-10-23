@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Asteroids2.UI;
 using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +20,8 @@ namespace Asteroids2
         //private EventSystem _eventSystem;
         private AudioListener[] _audioListeners;
         private EventSystem[] _eventSystems;
+        private PauseManager _pauseManager;
+        private forPauseClass _forPauseClasses;
 
         public Button startButton;
         public Button settingsButton;
@@ -29,7 +33,7 @@ namespace Asteroids2
         private float _timeToCompletGame;
         private float _startGameTime;
         private float _endGameTime;
-        internal float _elapsedGameTime;
+        // internal float _elapsedGameTime;
 
 
         private void Awake()
@@ -39,7 +43,9 @@ namespace Asteroids2
 
         private void Start()
         {
-            _elapsedGameTime = 0;
+            // _elapsedGameTime = 0;
+            _pauseManager = gameObject.AddComponent<PauseManager>();
+            _forPauseClasses = gameObject.AddComponent<forPauseClass>();
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
             settingsButton.onClick.AddListener(OpenSettings);
@@ -53,16 +59,18 @@ namespace Asteroids2
             
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (gameState == GameState.Game)
+                if (gameState == GameState.Game || gameState == GameState.MainMenu)
                 {
                     // show settings menu
-                    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+                    _forPauseClasses.TogglePauseSet();
+                    _pauseManager.TogglePause();
                     gameState = GameState.None;
                 }
                 else if (gameState == GameState.None)
                 {
                     // back in the game
-                    SceneManager.UnloadSceneAsync("SettingsScene");
+                    _forPauseClasses.TogglePauseSet();
+                    _pauseManager.TogglePause();
                     gameState = GameState.Game;
                 }
             }
@@ -114,6 +122,9 @@ namespace Asteroids2
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Additive);
             EnemyManager.IsEnemyOnScene(false);
+            _forPauseClasses.StartGameUnpause();
+            _pauseManager.StartGameStartTime();
+            _pauseManager.gameTimer = 0f;
             _startGameTime = Time.realtimeSinceStartup;
     
             yield return loadOperation;
@@ -127,9 +138,9 @@ namespace Asteroids2
 
         private void WinGame()
         {
-            _endGameTime = Time.realtimeSinceStartup;
-            _elapsedGameTime = (_endGameTime - _startGameTime);
-            Debug.LogError($"!!!!!!!! {_elapsedGameTime} !!!!!!");
+            //_endGameTime = Time.realtimeSinceStartup;
+            // _elapsedGameTime = _pauseManager.gameTimer /*(_endGameTime - _startGameTime)*/;
+            // Debug.LogError($"!!!!!!!! {_elapsedGameTime} !!!!!!");
 
             MusicManagerScript.Instance.PlayWinMusic();
             StartCoroutine(LoadWinScene());

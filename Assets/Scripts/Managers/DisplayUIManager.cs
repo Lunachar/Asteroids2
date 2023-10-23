@@ -21,10 +21,11 @@ public class DisplayUIManager : MonoBehaviour
     public int initialScore = 0;  // Initial score value
     private static int score = 0;  // Static variable to store the player's score
     private static int _playerHp;
-    private static float _stopTime;
+    private PauseManager _pauseManager;
 
     private void Start()
     {
+        _pauseManager = GameObject.Find("ManagersDDOL").GetComponent<PauseManager>();
         gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
         score = initialScore;
     }
@@ -36,17 +37,7 @@ public class DisplayUIManager : MonoBehaviour
         // Update the UI text element to display the current score
         scroreText.text = $"Score: " + GetScore();
         playerHPText.text = $"HP: {_playerHp}";
-        if (!gameManager.boosDieFlag || !gameManager.playerDieFlag)
-        {
-            _stopTime = gameManager.ElapsedTime();
-            time.text = _stopTime.ToString();
-        }
-        else
-        {
-            time.text = _stopTime.ToString();
-        }
-
-        
+        time.text = _pauseManager.gameTimer.ToString();
     }
 
     // Add points to the player's score

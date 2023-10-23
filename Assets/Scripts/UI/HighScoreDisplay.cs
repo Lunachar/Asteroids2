@@ -16,6 +16,7 @@ namespace Asteroids2.UI
         public Button backToGame;
         public HighScoreManager highScoreManager;
         public GameManager gameManager;
+        private PauseManager _pauseManager;
         private float _gameTime;
         
         private bool _isRebuilded;
@@ -26,10 +27,11 @@ namespace Asteroids2.UI
 
         private void Start()
         {
+            _pauseManager = GameObject.Find("ManagersDDOL").GetComponent<PauseManager>();
             highScoreManager = GetComponent<HighScoreManager>();
             gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
-            _gameTime = gameManager._elapsedGameTime;
-            currentTimeText.text = $"your time is: {gameManager._elapsedGameTime.ToString()}";
+            _gameTime = _pauseManager.gameTimer;
+            currentTimeText.text = $"your time is: {_gameTime.ToString()}";
             
             highScoreManager.LoadHighScores();
             Debug.LogError($"Start: {highScoreManager.IsHighScore(_gameTime).ToString()}");
