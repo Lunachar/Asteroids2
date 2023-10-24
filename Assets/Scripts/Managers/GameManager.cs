@@ -25,6 +25,7 @@ namespace Asteroids2
 
         public Button startButton;
         public Button settingsButton;
+        private bool _settingsButtonClicked;
 
         private float _musicLenght;
         internal bool boosDieFlag;
@@ -48,8 +49,7 @@ namespace Asteroids2
             _forPauseClasses = gameObject.AddComponent<forPauseClass>();
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
-            settingsButton.onClick.AddListener(OpenSettings);
-            // highScoreManager = GetComponent<HighScoreManager>();
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         }
 
         private void Update()
@@ -57,7 +57,7 @@ namespace Asteroids2
             OnlyOneAudioListenerIsEnabled();
             OnlyOneEventSystemIsEnabled();
             
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || _settingsButtonClicked)
             {
                 if (gameState == GameState.Game || gameState == GameState.MainMenu)
                 {
@@ -85,6 +85,7 @@ namespace Asteroids2
                 LoseGame();
                 playerDieFlag = false;
             }
+            _settingsButtonClicked = false;
         }
 
         private IEnumerator LoadMainMenu()
@@ -103,6 +104,8 @@ namespace Asteroids2
             //_eventSystem = FindObjectOfType<EventSystem>();
             SceneManager.LoadScene("MainMenuScene");
             yield return StartCoroutine(LoadMainMenu());
+            settingsButton = GameObject.Find("ButtonSettings").GetComponent<Button>();
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             SceneManager.UnloadSceneAsync(_currentGameScene);
             Debug.LogError($"here 2");
         }
@@ -112,10 +115,9 @@ namespace Asteroids2
             StartCoroutine(LoadGameScene());
         }
 
-        private void OpenSettings()
+        private void OnSettingsButtonClicked()
         {
-            SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
-            gameState = GameState.Pause;
+                _settingsButtonClicked = true;
         }
 
         private IEnumerator LoadGameScene()

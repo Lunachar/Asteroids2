@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - Boss
   - FinallyText
+  - UI
+  - CanvasSettings
   layers:
   - Default
   - TransparentFX

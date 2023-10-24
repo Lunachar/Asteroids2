@@ -8,6 +8,8 @@ namespace Asteroids2
         private GameObject _player;
         private GameObject _ui;
         private GameObject _enemy;
+        private GameObject _currentCanvas;
+        private Canvas _settingsCanvas;
 
         public GameObject[] GameObjectsToPause;
 
@@ -16,11 +18,19 @@ namespace Asteroids2
         {
             if (GameObject.Find("Player") != null) _player = GameObject.Find("Player");
 
-            if (GameObject.FindWithTag("Enemy") != null) _enemy = GameObject.FindWithTag("Enemy");
+            if (GameObject.FindWithTag("Enemy") != null)
+            {
+                _enemy = GameObject.FindWithTag("Enemy");
+            }
         
             if (GameObject.Find("UI") != null) _ui = GameObject.Find("UI");
 
-            GameObjectsToPause = new[] {_player, _ui, _enemy};
+            if (GameObject.FindWithTag("UI") != null) _currentCanvas = GameObject.FindWithTag("UI");
+            Debug.Log($"current: {_currentCanvas.name}");
+
+            if(GameObject.Find("CanvasSettings") != null) _settingsCanvas = GameObject.Find("CanvasSettings").GetComponent<Canvas>();
+            
+            GameObjectsToPause = new[] {_player, _ui, _enemy, _currentCanvas};
         }
 
         public void TogglePauseSet()
@@ -31,6 +41,11 @@ namespace Asteroids2
                 {
                     VARIABLE.SetActive(!VARIABLE.activeSelf);
                 }
+            }
+
+            if (_settingsCanvas != null)
+            {
+                _settingsCanvas.enabled = !_settingsCanvas.enabled;
             }
         }
 

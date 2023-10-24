@@ -54,7 +54,10 @@ namespace Asteroids2
 
         public override void SetTarget()
         {
-            _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
+            if (GameObject.FindWithTag("Player") != null)
+            {
+                _target = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            } // Find and set the player as the target
             //Debug.Log("1Target is:" + _target);
         }
 
