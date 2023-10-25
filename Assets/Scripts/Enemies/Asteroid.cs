@@ -13,6 +13,8 @@ namespace Asteroids2
         private float _asteroidDestroyTime; // Time when the asteroid should be destroyed
         private float _startTime;           // Time when the asteroid was created
         private int _asteroidHp;
+        private Vector2 savedVelocity { get; set; }
+        private float savedRotation { get; set; }
         
         public TextMeshProUGUI asteroidHp;
         public float asteroidSpeed = 1f;         // Speed at which the asteroid moves
@@ -45,6 +47,8 @@ namespace Asteroids2
             }
         }
 
+
+
         private void FaceTarget()
         {
             Vector2 direction = _target.position - transform.position;
@@ -68,6 +72,7 @@ namespace Asteroids2
             var playerPosition = _target.position;
             var direction = playerPosition - asteroidPosition;
             _rb.AddForce(direction.normalized * asteroidSpeed, ForceMode2D.Impulse); // Move the asteroid towards the player
+
         }
 
         public override void TakeDamage(int damageAmount)

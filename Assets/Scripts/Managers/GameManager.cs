@@ -49,7 +49,7 @@ namespace Asteroids2
             _forPauseClasses = gameObject.AddComponent<forPauseClass>();
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
-            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+            //settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         }
 
         private void Update()
@@ -65,6 +65,7 @@ namespace Asteroids2
                     _forPauseClasses.TogglePauseSet();
                     _pauseManager.TogglePause();
                     gameState = GameState.None;
+                    _settingsButtonClicked = false;
                 }
                 else if (gameState == GameState.None)
                 {
@@ -110,12 +111,12 @@ namespace Asteroids2
             Debug.LogError($"here 2");
         }
 
-        public void StartGame()
+        internal void StartGame()
         {
             StartCoroutine(LoadGameScene());
         }
 
-        private void OnSettingsButtonClicked()
+        internal void OnSettingsButtonClicked()
         {
                 _settingsButtonClicked = true;
         }
