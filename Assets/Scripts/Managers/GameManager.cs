@@ -17,24 +17,21 @@ namespace Asteroids2
         // public HighScoreManager highScoreManager;
         private GameState gameState;
         private Scene _currentGameScene;
-        //private EventSystem _eventSystem;
         private AudioListener[] _audioListeners;
         private EventSystem[] _eventSystems;
         private PauseManager _pauseManager;
         private forPauseClass _forPauseClasses;
 
-        public Button startButton;
         public Button settingsButton;
         private bool _settingsButtonClicked;
 
         private float _musicLenght;
         internal bool boosDieFlag;
         internal bool playerDieFlag;
-
+        
         private float _timeToCompletGame;
         private float _startGameTime;
         private float _endGameTime;
-        // internal float _elapsedGameTime;
 
 
         private void Awake()
@@ -75,16 +72,14 @@ namespace Asteroids2
                     gameState = GameState.Game;
                 }
             }
-            if (boosDieFlag)
+            if (boosDieFlag && gameState == GameState.Game)
             {
                 WinGame();
-                boosDieFlag = false;
             }
 
             if (playerDieFlag)
             {
                 LoseGame();
-                playerDieFlag = false;
             }
             _settingsButtonClicked = false;
         }
@@ -101,14 +96,11 @@ namespace Asteroids2
         internal IEnumerator StartMainMenu()
         {
             _currentGameScene = SceneManager.GetActiveScene();
-            Debug.LogError($"here 1");
-            //_eventSystem = FindObjectOfType<EventSystem>();
             SceneManager.LoadScene("MainMenuScene");
             yield return StartCoroutine(LoadMainMenu());
             settingsButton = GameObject.Find("ButtonSettings").GetComponent<Button>();
             settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             SceneManager.UnloadSceneAsync(_currentGameScene);
-            Debug.LogError($"here 2");
         }
 
         internal void StartGame()
@@ -127,7 +119,7 @@ namespace Asteroids2
             EnemyManager.IsEnemyOnScene(false);
             _forPauseClasses.StartGameUnpause();
             _pauseManager.StartGameStartTime();
-            _pauseManager.gameTimer = 0f;
+            PauseManager.gameTimer = 0f;
             _startGameTime = Time.realtimeSinceStartup;
     
             yield return loadOperation;
@@ -137,6 +129,9 @@ namespace Asteroids2
     
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("MainMenuScene");
             yield return unloadOperation;
+            
+            boosDieFlag = false;
+            playerDieFlag = false;
         }
 
         private void WinGame()
@@ -144,7 +139,7 @@ namespace Asteroids2
             //_endGameTime = Time.realtimeSinceStartup;
             // _elapsedGameTime = _pauseManager.gameTimer /*(_endGameTime - _startGameTime)*/;
             // Debug.LogError($"!!!!!!!! {_elapsedGameTime} !!!!!!");
-
+            gameState = GameState.Win;
             MusicManagerScript.Instance.PlayWinMusic();
             StartCoroutine(LoadWinScene());
         }
@@ -159,9 +154,11 @@ namespace Asteroids2
             gameState = GameState.Win;
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("GameScene");
             yield return unloadOperation;
+            yield return new WaitForSeconds(2f);
         }
         private void LoseGame()
         {
+            gameState = GameState.Lose;
             PlayerModel playerModel = GameObject.Find("Player").GetComponent<PlayerModel>();
             Destroy(playerModel.gameObject);
             MusicManagerScript.Instance.PlayLoseMusic();

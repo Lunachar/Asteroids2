@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 558981678}
   - component: {fileID: 558981677}
   - component: {fileID: 558981676}
+  - component: {fileID: 558981679}
   m_Layer: 5
   m_Name: ButtonSettings
   m_TagString: Untagged
@@ -388,6 +389,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558981674}
   m_CullTransparentMesh: 1
+--- !u!114 &558981679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558981674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238dd649e448499093a16abde29ae3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 558981676}
+  gameManager: {fileID: 0}
 --- !u!1 &1241822976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,7 +1036,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bf504e4e84459a02d34d81536c829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 1241822978}
   settingsButton: {fileID: 558981676}
 --- !u!114 &1742671725
 MonoBehaviour:
@@ -1176,7 +1190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1742818506
 RectTransform:
   m_ObjectHideFlags: 0

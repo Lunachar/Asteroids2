@@ -6,8 +6,9 @@ namespace Asteroids2
     public class PauseManager : MonoBehaviour
     {
         private static bool _isPaused = false;
-        public float gameTimer = 0f;
+        public static float gameTimer = 0f;
         private GameManager _gameManager;
+        private bool flagKeper;
 
         public static bool IsPaused
         {
@@ -33,9 +34,12 @@ namespace Asteroids2
 
         private void Update()
         {
-            if (!_isPaused && !_gameManager.boosDieFlag && !_gameManager.playerDieFlag)
+            flagKeper = _gameManager.boosDieFlag;
+            Debug.Log($"1::: {_isPaused} ::: 2: {flagKeper}");
+            if (!_isPaused && !flagKeper && !_gameManager.playerDieFlag)
             {
-                gameTimer += Time.deltaTime;
+                    gameTimer += Time.deltaTime;
+                    Debug.Log($"TIME: {gameTimer.ToString()}");
             }
         }
     }

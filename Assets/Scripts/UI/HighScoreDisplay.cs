@@ -27,10 +27,10 @@ namespace Asteroids2.UI
 
         private void Start()
         {
-            _pauseManager = GameObject.Find("ManagersDDOL").GetComponent<PauseManager>();
+            //_pauseManager = GameObject.Find("ManagersDDOL").GetComponent<PauseManager>();
             highScoreManager = GetComponent<HighScoreManager>();
             gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
-            _gameTime = _pauseManager.gameTimer;
+            _gameTime = PauseManager.gameTimer;
             currentTimeText.text = $"your time is: {_gameTime.ToString()}";
             
             highScoreManager.LoadHighScores();

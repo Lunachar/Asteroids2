@@ -26,7 +26,6 @@ namespace Asteroids2
             if (GameObject.Find("UI") != null) _ui = GameObject.Find("UI");
 
             if (GameObject.FindWithTag("UI") != null) _currentCanvas = GameObject.FindWithTag("UI");
-            Debug.Log($"current: {_currentCanvas.name}");
 
             if(GameObject.Find("CanvasSettings") != null) _settingsCanvas = GameObject.Find("CanvasSettings").GetComponent<Canvas>();
             

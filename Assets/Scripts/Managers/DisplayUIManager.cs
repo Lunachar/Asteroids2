@@ -37,7 +37,7 @@ public class DisplayUIManager : MonoBehaviour
         // Update the UI text element to display the current score
         scroreText.text = $"Score: " + GetScore();
         playerHPText.text = $"HP: {_playerHp}";
-        time.text = _pauseManager.gameTimer.ToString();
+        time.text = PauseManager.gameTimer.ToString();
     }
 
     // Add points to the player's score
