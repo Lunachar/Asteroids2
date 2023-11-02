@@ -65,14 +65,27 @@ namespace Asteroids2
 
         public override void SetTarget()
         {
-            _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
+            if (GameObject.FindWithTag("Player").GetComponent<Transform>() != null)
+            {
+                            _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
+            }
             //Debug.Log("1Target is:" + _target);
         }
 
         public void Move()
         {
-            Vector3 directionToPlayer = (_target.position - _initialPosition).normalized;
-            transform.position += directionToPlayer * barrelSpeed * Time.deltaTime;
+            Vector3 directionToPlayer;
+            if (_target != null)
+            {
+                directionToPlayer = (_target.position - _initialPosition).normalized;
+                transform.position += directionToPlayer * barrelSpeed * Time.deltaTime;
+            }
+            else
+            {
+                directionToPlayer = (Vector2.zero - (Vector2)_initialPosition).normalized;
+                transform.position += directionToPlayer * barrelSpeed * Time.deltaTime;
+
+            }
         }
 
   

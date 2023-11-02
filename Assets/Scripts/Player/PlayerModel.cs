@@ -38,6 +38,7 @@ namespace Player
 
         public Health PlayerHealth;
         public GameManager gameManager;
+        private ToggleGOSwitchComponents _tsc;
         
         private float _musicLenght;
 
@@ -48,6 +49,7 @@ namespace Player
         {
             _rb = GetComponent<Rigidbody2D>();
             PlayerHealth = new Health(100);
+            _tsc = gameObject.AddComponent<ToggleGOSwitchComponents>();
             gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
         }
 
@@ -74,6 +76,7 @@ namespace Player
             {
                 gameManager.playerDieFlag = true;
                 _dieCounter = 1;
+                _tsc.Switch(gameObject);
                 //EnemyManager.IsEnemyOnScene(false);
             }
         }

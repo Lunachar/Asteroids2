@@ -51,7 +51,16 @@ namespace Asteroids2
 
         private void FaceTarget()
         {
-            Vector2 direction = _target.position - transform.position;
+            Vector2 direction;
+            if (_target != null)
+            {
+                direction = _target.position - transform.position;
+            }
+            else
+            {
+                direction = Vector2.zero - (Vector2)transform.position;
+
+            }
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _rb.rotation = angle; // Rotate the asteroid to face the target
         }

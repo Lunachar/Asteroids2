@@ -14,7 +14,7 @@ namespace Asteroids2
 {
     public class GameManager:MonoBehaviour
     {
-        // public HighScoreManager highScoreManager;
+        private GameObject _player;
         private GameState gameState;
         private Scene _currentGameScene;
         private AudioListener[] _audioListeners;
@@ -46,7 +46,6 @@ namespace Asteroids2
             _forPauseClasses = gameObject.AddComponent<forPauseClass>();
             gameState = GameState.MainMenu;
             StartCoroutine(LoadMainMenu());
-            //settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         }
 
         private void Update()
@@ -72,12 +71,17 @@ namespace Asteroids2
                     gameState = GameState.Game;
                 }
             }
+
+            if (_player == null)
+            {
+                _player = GameObject.FindWithTag("Player");
+            }
             if (boosDieFlag && gameState == GameState.Game)
             {
                 WinGame();
             }
 
-            if (playerDieFlag)
+            if (playerDieFlag && gameState == GameState.Game)
             {
                 LoseGame();
             }
@@ -129,7 +133,6 @@ namespace Asteroids2
     
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("MainMenuScene");
             yield return unloadOperation;
-            
             boosDieFlag = false;
             playerDieFlag = false;
         }
@@ -159,8 +162,8 @@ namespace Asteroids2
         private void LoseGame()
         {
             gameState = GameState.Lose;
-            PlayerModel playerModel = GameObject.Find("Player").GetComponent<PlayerModel>();
-            Destroy(playerModel.gameObject);
+            //PlayerModel playerModel = _player.GetComponent<PlayerModel>();
+            //Destroy(playerModel.gameObject);
             MusicManagerScript.Instance.PlayLoseMusic();
             Debug.LogError($"-= LOSE MUSIC =-");
             StartCoroutine(LoadLoseScene());

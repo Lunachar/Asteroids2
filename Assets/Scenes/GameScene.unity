@@ -859,6 +859,22 @@ PrefabInstance:
       propertyPath: m_AngularDrag
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 591480115625095842, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737625291391538265, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605860027460244929, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672115028627144328, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5628829344313742257, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
       propertyPath: m_RootOrder
       value: 0
