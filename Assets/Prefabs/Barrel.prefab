@@ -259,6 +259,7 @@ MonoBehaviour:
   barrelHp: {fileID: 404465228001903634}
   barrelSpeed: 2.83
   barrelRotationSpeed: 100
+  explosionPrefab: {fileID: 4599318619780680727, guid: 8d7d005b26f4d2449ab67ff1f14ba502, type: 3}
 --- !u!61 &3179576636810928155
 BoxCollider2D:
   m_ObjectHideFlags: 0

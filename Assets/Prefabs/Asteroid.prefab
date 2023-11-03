@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidHp: {fileID: 2923557854423000212}
   asteroidSpeed: 3
+  explosionPrefab: {fileID: 4599318619780680727, guid: 8d7d005b26f4d2449ab67ff1f14ba502, type: 3}
 --- !u!50 &7795154054948966170
 Rigidbody2D:
   serializedVersion: 4

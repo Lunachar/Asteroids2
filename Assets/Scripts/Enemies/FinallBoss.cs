@@ -15,6 +15,8 @@ namespace Asteroids2
         public float fireRate = 1f;
         public float laserDuration = 0.05f;
         public TextMeshProUGUI bossHp;
+        public GameObject explosionPrefab;
+
 
         private LineRenderer laserLine;
         private float fireTimer;
@@ -99,6 +101,7 @@ namespace Asteroids2
                 _isShooting = false;
                 Debug.LogError($"{gameManager.boosDieFlag.ToString()}");
                 DisplayUIManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Die(); // Destroy the Bos when its health reaches zero
             }
         }

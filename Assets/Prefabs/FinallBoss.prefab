@@ -446,7 +446,9 @@ MonoBehaviour:
   fireRate: 1
   laserDuration: 0.05
   bossHp: {fileID: 2923557854423000212}
+  explosionPrefab: {fileID: 4599318619780680727, guid: 8d7d005b26f4d2449ab67ff1f14ba502, type: 3}
   _moveSpeed: 4
+  gameManager: {fileID: 0}
 --- !u!1 &8572309201608300903
 GameObject:
   m_ObjectHideFlags: 0

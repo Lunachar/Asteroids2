@@ -38,6 +38,7 @@ namespace Player
 
         public Health PlayerHealth;
         public GameManager gameManager;
+        public GameObject explosionPrefab;
         private ToggleGOSwitchComponents _tsc;
         
         private float _musicLenght;
@@ -180,6 +181,8 @@ namespace Player
                     enemy.TakeDamage(5);
                 }
                 PlayerHealth.takeDamage(10);
+
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             }
         }
     }

@@ -19,6 +19,8 @@ namespace Asteroids2
         public TextMeshProUGUI asteroidHp;
         public float asteroidSpeed = 1f;         // Speed at which the asteroid moves
         public override int ScoreValue => 100;   // Score value awarded when the asteroid is destroyed
+        public GameObject explosionPrefab;
+
 
 
         private void Start()
@@ -59,7 +61,6 @@ namespace Asteroids2
             else
             {
                 direction = Vector2.zero - (Vector2)transform.position;
-
             }
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _rb.rotation = angle; // Rotate the asteroid to face the target
@@ -90,6 +91,7 @@ namespace Asteroids2
             _asteroidHealth.takeDamage(damageAmount); // Reduce asteroid's health when it takes damage
             if (_asteroidHealth.GetCurrentHealth() <= 0)
             {
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Die(); // Destroy the asteroid when its health reaches zero
                 //AsteroidFactory.SetAsteroidSpawned(false); // Notify the asteroid factory
                 DisplayUIManager.AddScore(ScoreValue); // Add score when the asteroid is destroyed

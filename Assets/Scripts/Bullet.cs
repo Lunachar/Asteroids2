@@ -8,6 +8,8 @@ namespace Asteroids2
     {
         [SerializeField] private float bulletDestroyTime = 3f; // Time after which the bullet is destroyed
         [SerializeField] private int damageAmount = 10;       // Amount of damage the bullet deals
+        public GameObject explosionPrefab;
+
 
         private void Start()
         {
@@ -20,6 +22,7 @@ namespace Asteroids2
             //Debug.Log("OnTriggerEnter +");
             if (col.gameObject.CompareTag("Enemy"))
             {
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Enemy enemy = col.gameObject.GetComponent<Enemy>();
                 if (enemy != null)
                 {

@@ -851,6 +851,10 @@ PrefabInstance:
       propertyPath: _rotationSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1846366587225407137, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 4599318619780680727, guid: 8d7d005b26f4d2449ab67ff1f14ba502, type: 3}
     - target: {fileID: 206234555620974109, guid: 0a8ba87a3ce424d4583043d2527b413b, type: 3}
       propertyPath: m_LinearDrag
       value: 6

@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletDestroyTime: 3
+  damageAmount: 10
+  explosionPrefab: {fileID: 4599318619780680727, guid: 54b79963a3d0d4e4793b98581c5da427, type: 3}
 --- !u!58 &8717934560526823909
 CircleCollider2D:
   m_ObjectHideFlags: 0
