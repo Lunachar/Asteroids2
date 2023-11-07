@@ -39,6 +39,8 @@ namespace Asteroids2
         public GameManager gameManager;
         private float _musicLenght;
         private GameObject playerModel;
+
+        public static event Action OnDestroy;
         
 
 
@@ -101,6 +103,7 @@ namespace Asteroids2
                 _isShooting = false;
                 Debug.LogError($"{gameManager.boosDieFlag.ToString()}");
                 DisplayUIManager.AddScore(ScoreValue); // Add score when the Boss is destroyed
+                OnDestroy?.Invoke();
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Die(); // Destroy the Bos when its health reaches zero
             }

@@ -20,6 +20,7 @@ namespace Asteroids2
         public float asteroidSpeed = 1f;         // Speed at which the asteroid moves
         public override int ScoreValue => 100;   // Score value awarded when the asteroid is destroyed
         public GameObject explosionPrefab;
+        public static event Action OnDestroy;
 
 
 
@@ -91,6 +92,7 @@ namespace Asteroids2
             _asteroidHealth.takeDamage(damageAmount); // Reduce asteroid's health when it takes damage
             if (_asteroidHealth.GetCurrentHealth() <= 0)
             {
+                OnDestroy?.Invoke();
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Die(); // Destroy the asteroid when its health reaches zero
                 //AsteroidFactory.SetAsteroidSpawned(false); // Notify the asteroid factory

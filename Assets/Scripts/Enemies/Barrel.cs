@@ -21,6 +21,8 @@ namespace Asteroids2
         public float barrelSpeed = 15f;           // Speed at which the barrel moves
         public float barrelRotationSpeed = 80f;  // Speed at which the barrel rotates
         public GameObject explosionPrefab;
+        
+        public static event Action OnDestroy;
 
 
         public override int ScoreValue => 100;   // Score value awarded when the barrel is destroyed
@@ -102,6 +104,7 @@ namespace Asteroids2
             _barrelHealth.takeDamage(damageAmount); // Reduce barrel's health when it takes damage
             if (_barrelHealth.GetCurrentHealth() <= 0)
             {
+                OnDestroy?.Invoke();
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Die(); // Destroy the barrel when its health reaches zero
                 //BarrelFactory.SetBarrelSpawned(false); // Notify the barrel factory

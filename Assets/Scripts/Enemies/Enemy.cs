@@ -17,7 +17,7 @@ public abstract class Enemy : MonoBehaviour
     // Common method for handling enemy death
     protected void Die()
     {
-        Destroy(gameObject); // Destroy the enemy game object
+        gameObject.SetActive(false); // Destroy the enemy game object
         EnemyManager.IsEnemyOnScene(false); // Notify the EnemyManager that the enemy is no longer on the scene
     }
 }

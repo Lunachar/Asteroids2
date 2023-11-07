@@ -25,11 +25,14 @@ namespace Asteroids2
         public Button settingsButton;
         private bool _settingsButtonClicked;
 
+        public Button backButton;
+        private bool _backButtonClicked;
+
         private float _musicLenght;
         internal bool boosDieFlag;
         internal bool playerDieFlag;
         
-        private float _timeToCompletGame;
+        //private float _timeToCompletGame;
         private float _startGameTime;
         private float _endGameTime;
 
@@ -53,7 +56,7 @@ namespace Asteroids2
             OnlyOneAudioListenerIsEnabled();
             OnlyOneEventSystemIsEnabled();
             
-            if (Input.GetKeyDown(KeyCode.Escape) || _settingsButtonClicked)
+            if (Input.GetKeyDown(KeyCode.Escape) || _settingsButtonClicked || _backButtonClicked)
             {
                 if (gameState == GameState.Game || gameState == GameState.MainMenu)
                 {
@@ -63,12 +66,13 @@ namespace Asteroids2
                     gameState = GameState.None;
                     _settingsButtonClicked = false;
                 }
-                else if (gameState == GameState.None)
+                else if (gameState == GameState.None )
                 {
                     // back in the game
                     _forPauseClasses.TogglePauseSet();
                     _pauseManager.TogglePause();
                     gameState = GameState.Game;
+                    _backButtonClicked = false;
                 }
             }
 
@@ -88,6 +92,16 @@ namespace Asteroids2
             _settingsButtonClicked = false;
         }
 
+        // private void OnEnable()
+        // {
+        //     SceneManager.sceneLoaded += OnSceneLoaded;
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     SceneManager.sceneLoaded -= OnSceneLoaded;
+        // }
+
         private IEnumerator LoadMainMenu()
         {
             yield return new WaitUntil(() => SceneManager.GetSceneByName("MainMenuScene").isLoaded);
@@ -99,6 +113,9 @@ namespace Asteroids2
 
         internal IEnumerator StartMainMenu()
         {
+            
+            boosDieFlag = false;
+            playerDieFlag = false;
             _currentGameScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene("MainMenuScene");
             yield return StartCoroutine(LoadMainMenu());
@@ -115,6 +132,10 @@ namespace Asteroids2
         internal void OnSettingsButtonClicked()
         {
                 _settingsButtonClicked = true;
+        }
+        internal void OnBackButtonClicked()
+        {
+            _backButtonClicked = true;
         }
 
         private IEnumerator LoadGameScene()
@@ -202,7 +223,7 @@ namespace Asteroids2
         private void OnlyOneEventSystemIsEnabled()
         {
             _eventSystems = FindObjectsOfType<EventSystem>();
-
+        
             if (_eventSystems.Length > 1)
             {
                 for (int i = 1; i < _eventSystems.Length; i++)
@@ -210,12 +231,17 @@ namespace Asteroids2
                     _eventSystems[i].enabled = false;
                 }
             }
-
+        
             if (_eventSystems.Length > 0)
             {
                 _eventSystems[0].enabled = true;
             }
         }
+        //
+        // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        // {
+        //     OnlyOneEventSystemIsEnabled();
+        // }
 
         internal float ElapsedTime()
         {

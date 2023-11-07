@@ -749,6 +749,7 @@ MonoBehaviour:
   soundPlayerEdgeCollision: {fileID: 8300000, guid: 10b17caea660b184890125ffcbf9059d, type: 3}
   soundPlayerGunShoot: {fileID: 8300000, guid: c5fe4fe598fae984da0b78b2f030e02e, type: 3}
   soundPlayerCollide: {fileID: 8300000, guid: 29617b2329bf53b43b91e9bc3d967776, type: 3}
+  soundObjectDestroyed: {fileID: 8300000, guid: a29c6c4bbb9d846478d66cc79478302e, type: 3}
 --- !u!1 &947022169
 GameObject:
   m_ObjectHideFlags: 0

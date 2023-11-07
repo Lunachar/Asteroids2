@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Asteroids2;
 using Player;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip soundPlayerEdgeCollision;
     public AudioClip soundPlayerGunShoot;
     public AudioClip soundPlayerCollide;
+    public AudioClip soundObjectDestroyed;
     
     private bool _isEdgeCollisionSoundPlaying;
     private bool _isPlayerCollidePlaying;
@@ -26,6 +28,9 @@ public class SoundManager : MonoBehaviour
         PlayerModel.OnScreenEdgeCollision += PlayScreenEdgeCollisionSound;
         PlayerModel.PlayerGunShoot += PlayPlayerGunShoot;
         PlayerModel.PlayerCollide += PlayPlayerCollide;
+        Asteroid.OnDestroy += OnDestroy;
+        Barrel.OnDestroy += OnDestroy;
+        FinallBoss.OnDestroy += OnDestroy;
     }
     
     private void OnDisable()
@@ -33,6 +38,9 @@ public class SoundManager : MonoBehaviour
         PlayerModel.OnScreenEdgeCollision -= PlayScreenEdgeCollisionSound;
         PlayerModel.PlayerGunShoot -= PlayPlayerGunShoot;
         PlayerModel.PlayerCollide -= PlayPlayerCollide;
+        Asteroid.OnDestroy -= OnDestroy;
+        Barrel.OnDestroy -= OnDestroy;
+        FinallBoss.OnDestroy -= OnDestroy;
     }
 
     private void PlayScreenEdgeCollisionSound()
@@ -45,7 +53,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlayPlayerGunShoot()
     {
-        _audioSource.PlayOneShot(soundPlayerGunShoot, 0.2f);
+        _audioSource.PlayOneShot(soundPlayerGunShoot, 0.02f);
     }
 
     private void PlayPlayerCollide()
@@ -54,6 +62,11 @@ public class SoundManager : MonoBehaviour
         _audioSource.PlayOneShot(soundPlayerCollide);
         _isPlayerCollidePlaying = true;
         StartCoroutine(WaitForPlayerCollideSound());
+    }
+
+    private void OnDestroy()
+    {
+        _audioSource.PlayOneShot(soundObjectDestroyed);
     }
 
     private IEnumerator WaitForEdgeCollisionSound()
