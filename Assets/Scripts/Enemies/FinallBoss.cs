@@ -13,7 +13,7 @@ namespace Asteroids2
         public Transform laserOrign;
         public float gunRange = 50f;
         public float fireRate = 1f;
-        public float laserDuration = 0.05f;
+        public float laserDuration = 0.1f;
         public TextMeshProUGUI bossHp;
         public GameObject explosionPrefab;
 
@@ -25,7 +25,7 @@ namespace Asteroids2
         private Rigidbody2D _rb;
         private float _startTime;
         private Vector3 _initialPosition;
-        private int _bossHp;
+        //private int _bossHp;
 
         private bool _isMoving = true;
         private static bool _isShooting = false;
@@ -64,7 +64,7 @@ namespace Asteroids2
         {
             _initialPosition = transform.position;
 
-            if (playerModel)
+            if (!gameManager.playerDieFlag)
             {
                 SetTarget(); // Set the target for the Boss
 
@@ -73,9 +73,12 @@ namespace Asteroids2
 
                 Rotate();
             }
+            else
+            {
+                WinMove();
+            }
 
-            _bossHp = _bossHealth.GetCurrentHealth();
-            bossHp.text = _bossHp.ToString();
+            bossHp.text = _bossHealth.GetCurrentHealth().ToString();
 
         }
 
@@ -129,6 +132,13 @@ namespace Asteroids2
             }
         }
 
+        public void WinMove()
+        {
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * _rotationSpeed);
+            gameObject.transform.position = Vector3.left;
+            gameObject.transform.position = Vector3.right;
+        }
+
 
         public void Rotate()
         {
@@ -145,48 +155,42 @@ namespace Asteroids2
 
         public void Shoot()
         {
-            // Vector3 rayOrigin = laserOrign.position;
-
-            if (_isShooting && _shootNumber < 6 /* && Time.time > _nextShootTime*/)
+            if (_isShooting && _shootNumber < 6)
             {
-
                 fireTimer += Time.deltaTime;
                 if (fireTimer > fireRate)
                 {
                     Debug.Log($"fireTimer > fireRate");
                     fireTimer = 0;
-                    laserLine.SetPosition(0, laserOrign.position);
-                    
-
-                    Vector2 direction = _target.position - gameObject.transform.position;
-                    Vector2 rayOrigin = laserOrign.position;
-                    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, gunRange);
-
-                    if (hit.collider.gameObject == _target.gameObject)
-                    {
-                        laserLine.SetPosition(1, hit.point);
-                        _target.GetComponent<PlayerModel>().PlayerHealth.takeDamage(30);
-                        //Debug.LogError($"takeDamage {_target.GetComponent<PlayerModel>().PlayerHealth.GetCurrentHealth().ToString()}");
-                        
-                    }
-                    else
-                    {
-                        Debug.Log($"MISSING");
-                        laserLine.SetPosition(1, rayOrigin + (direction * gunRange));
-                    }
-            
-                    //StartCoroutine(ShootLaser());
+                    StartCoroutine(ShootLaser());
                 }
-
-
-                //_nextShootTime = Time.time + _shootCooldown;
             }
+        }
+
+        public void WinShoot()
+        {
+            
         }
 
         IEnumerator ShootLaser()
         {
             Debug.Log($"ShootLaser");
             laserLine.enabled = true;
+            laserLine.SetPosition(0, laserOrign.position);
+            Vector2 direction = _target.position - gameObject.transform.position;
+            Vector2 rayOrigin = laserOrign.position;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, gunRange);
+
+            if (hit.collider.gameObject == _target.gameObject)
+            {
+                laserLine.SetPosition(1, hit.point);
+                _target.GetComponent<PlayerModel>().PlayerHealth.takeDamage(30);
+            }
+            else
+            {
+                Debug.Log($"MISSING");
+                laserLine.SetPosition(1, rayOrigin + (direction * gunRange));
+            }
             yield return new WaitForSeconds(laserDuration);
             _shootNumber++;
             laserLine.enabled = false;

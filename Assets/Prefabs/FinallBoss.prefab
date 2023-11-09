@@ -394,8 +394,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0.029075146, a: 1}
-      key1: {r: 0.8962264, g: 0.51152545, b: 0.51152545, a: 0.5019608}
+      key0: {r: 1, g: 0.7175769, b: 0.0047169924, a: 1}
+      key1: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -403,7 +403,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 44911
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
   laserOrign: {fileID: 4511057661275223613}
   gunRange: 50
   fireRate: 1
-  laserDuration: 0.05
+  laserDuration: 0.1
   bossHp: {fileID: 2923557854423000212}
   explosionPrefab: {fileID: 4599318619780680727, guid: 8d7d005b26f4d2449ab67ff1f14ba502, type: 3}
   _moveSpeed: 4
