@@ -76,6 +76,7 @@ namespace Asteroids2
             else
             {
                 WinMove();
+                // WinShoot();
             }
 
             bossHp.text = _bossHealth.GetCurrentHealth().ToString();

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Asteroids2.UI;
-using Player;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UI.Buttons;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Object = System.Object;
 
 namespace Asteroids2
 {
@@ -40,6 +34,12 @@ namespace Asteroids2
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
+
+            // EventSystem eventSystem = GameObject.FindObjectOfType<EventSystem>();
+            // if (eventSystem != null)
+            // {
+            //     DontDestroyOnLoad(eventSystem.gameObject);
+            // }
         }
 
         private void Start()
@@ -54,7 +54,15 @@ namespace Asteroids2
         private void Update()
         {
             OnlyOneAudioListenerIsEnabled();
-            OnlyOneEventSystemIsEnabled();
+            //OnlyOneEventSystemIsEnabled();
+            var es = FindObjectsOfType<EventSystem>();
+            if (es.Length > 1)
+            {
+                for (int i = 1; i < es.Length; i++)
+                {
+                    Destroy(es[i].gameObject);
+                }
+            }
             
             if (Input.GetKeyDown(KeyCode.Escape) || _settingsButtonClicked || _backButtonClicked)
             {
@@ -220,32 +228,34 @@ namespace Asteroids2
             }
         }
 
-        private void OnlyOneEventSystemIsEnabled()
-        {
-            _eventSystems = FindObjectsOfType<EventSystem>();
-        
-            if (_eventSystems.Length > 1)
-            {
-                for (int i = 1; i < _eventSystems.Length; i++)
-                {
-                    _eventSystems[i].enabled = false;
-                }
-            }
-        
-            if (_eventSystems.Length > 0)
-            {
-                _eventSystems[0].enabled = true;
-            }
-        }
+        // private void OnlyOneEventSystemIsEnabled()
+        // {
+        //     _eventSystems = FindObjectsOfType<EventSystem>();
+        //
+        //     if (_eventSystems.Length > 1)
+        //     {
+        //         for (int i = 1; i < _eventSystems.Length; i++)
+        //         {
+        //             _eventSystems[i].enabled = false;
+        //         }
+        //     }
+        //
+        //     if (_eventSystems.Length > 0)
+        //     {
+        //         _eventSystems[0].enabled = true;
+        //     }
+        // }
         //
         // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         // {
+        //     if (FindObjectOfType<EventSystem>() == null)
+        //     {
+        //         GameObject eventSystem =
+        //             new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+        //     }
+        //
         //     OnlyOneEventSystemIsEnabled();
         // }
 
-        internal float ElapsedTime()
-        {
-            return Time.unscaledTime - _startGameTime;
-        }
     }
 }
