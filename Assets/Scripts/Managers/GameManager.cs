@@ -19,7 +19,6 @@ namespace Asteroids2
         public Button settingsButton;
         private bool _settingsButtonClicked;
 
-        public Button backButton;
         private bool _backButtonClicked;
 
         private float _musicLenght;
@@ -132,6 +131,12 @@ namespace Asteroids2
         {
             _backButtonClicked = true;
         }
+
+        internal void OnExitButtonClicked()
+        {
+            Application.Quit();
+        }
+
 
         private IEnumerator LoadGameScene()
         {

@@ -12,6 +12,7 @@ TagManager:
   - FinallyText
   - UI
   - CanvasSettings
+  - ManagersDDOL
   layers:
   - Default
   - TransparentFX

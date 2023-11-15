@@ -1,12 +1,10 @@
 ﻿using System;
 using Asteroids2;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace UI.Buttons
 {
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
-
     public class BackButton : MonoBehaviour
     {
         public Button button;

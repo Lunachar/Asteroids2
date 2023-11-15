@@ -40,6 +40,8 @@ namespace Player
         public GameManager gameManager;
         public GameObject explosionPrefab;
         private ToggleGOSwitchComponents _tsc;
+
+        public Joystick Joystick;
         
         private float _musicLenght;
 
@@ -57,9 +59,17 @@ namespace Player
         private void Update()
         {
             CheckScreenEdgeCollision();
+            if (PlayerHealth.GetCurrentHealth() <= 0 && _dieCounter == 0)
+            {
+                gameManager.playerDieFlag = true;
+                _dieCounter = 1;
+                _tsc.Switch(gameObject);
+            }
+            
+#if UNITY_STANDALONE_WIN && UNITY_EDITOR
             _verticalInput = Input.GetAxis("Vertical"); // Get vertical input (e.g., W, S, Up, Down)
             _horizontalInput = Input.GetAxis("Horizontal"); // Get horizontal input (e.g., A, D, Left, Right)
-
+            
             if (Input.GetMouseButton(0))
             {
                 if (!_isShooting)
@@ -72,14 +82,13 @@ namespace Player
             {
                 _isShooting = false;
             }
+#endif
+            
+#if UNITY_ANDROID
+            _verticalInput = Joystick.Vertical;
+            _horizontalInput = Joystick.Horizontal;
+#endif
 
-            if (PlayerHealth.GetCurrentHealth() <= 0 && _dieCounter == 0)
-            {
-                gameManager.playerDieFlag = true;
-                _dieCounter = 1;
-                _tsc.Switch(gameObject);
-                //EnemyManager.IsEnemyOnScene(false);
-            }
         }
 
 
@@ -183,6 +192,20 @@ namespace Player
                 PlayerHealth.takeDamage(10);
 
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            }
+        }
+        
+        internal void OnFireButtonClicked()
+        {
+                if (!_isShooting)
+                {
+                    _isShooting = true;
+                    StartCoroutine(ContinuousShooting());
+                }
+            
+            else
+            {
+                _isShooting = false;
             }
         }
     }
