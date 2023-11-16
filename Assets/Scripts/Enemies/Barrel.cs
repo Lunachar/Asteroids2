@@ -60,24 +60,17 @@ namespace Asteroids2
 
         }
 
-        // private void FaceTarget()
-        // {
-        //     Vector2 direction = _target.position - transform.position;
-        //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //     _rb.rotation = angle; // Rotate the barrel to face the target
-        // }
 
         public override void SetTarget()
         {
             if (GameObject.FindWithTag("Player").GetComponent<Transform>() != null)
             {
-                            _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
+                _target = GameObject.FindWithTag("Player").GetComponent<Transform>(); // Find and set the player as the target
             }
             else
             {
                 _target = null;
             }
-            //Debug.Log("1Target is:" + _target);
         }
 
         public void Move()

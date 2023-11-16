@@ -73,7 +73,6 @@ namespace Asteroids2
             {
                 _target = GameObject.FindWithTag("Player").GetComponent<Transform>();
             } // Find and set the player as the target
-            //Debug.Log("1Target is:" + _target);
         }
 
         public void Move()

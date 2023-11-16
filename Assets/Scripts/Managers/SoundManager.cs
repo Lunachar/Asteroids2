@@ -53,7 +53,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlayPlayerGunShoot()
     {
-        _audioSource.PlayOneShot(soundPlayerGunShoot, 0.02f);
+        _audioSource.PlayOneShot(soundPlayerGunShoot, 0.3f);
     }
 
     private void PlayPlayerCollide()

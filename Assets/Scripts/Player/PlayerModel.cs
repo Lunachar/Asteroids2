@@ -29,6 +29,7 @@ namespace Player
         [SerializeField] private float bulletSpeed = 2f; // Speed of the bullets
         private bool _shootSide; // Tracks which gun to use for shooting
         private Transform _bulletSpawnPoint; // Reference to the spawn point of bullets
+        private Transform _target;
 
         private float _horizontalInput; // Input for horizontal movement
         private float _verticalInput; // Input for vertical movement
@@ -87,6 +88,8 @@ namespace Player
 #if UNITY_ANDROID
             _verticalInput = Joystick.Vertical;
             _horizontalInput = Joystick.Horizontal;
+            SetTarget();
+            FaceTarget();
 #endif
 
         }
@@ -136,6 +139,34 @@ namespace Player
             var direction = mousePosition - playerPosition;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             return angle;
+        }
+
+        private void SetTarget()
+        {
+            if (GameObject.FindWithTag("Enemy") != null)
+            {
+                _target = GameObject.FindWithTag("Enemy").GetComponent<Transform>();
+                Debug.Log($"Target::: {_target.name}");
+            }
+        }
+
+        internal void FaceTarget()
+        {
+            if (_target != null)
+            {
+                Vector2 direction = _target.position - transform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                _rb.rotation = angle-90f;
+            }
+            else
+            {
+                Vector2 direction = new Vector2(_horizontalInput, _verticalInput);
+                if (direction != Vector2.zero)
+                {
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    _rb.rotation = angle;
+                }
+            }
         }
 
         public void Shoot()

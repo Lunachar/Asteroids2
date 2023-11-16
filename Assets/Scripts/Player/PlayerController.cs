@@ -21,11 +21,16 @@ namespace Player
         {
             // Call movement and rotation functions from PlayerModel
             _playerModel.Move();
+#if UNITY_STANDALONE_WIN && UNITY_EDITOR
             _playerModel.Rotate();
+#endif
+            
 
             // Update the position and rotation of the player in the PlayerView
             _playerView.UpdatePosition(_playerModel.Position);
+#if UNITY_STANDALONE_WIN && UNITY_EDITOR
             _playerView.UpdateRotation(_playerModel.Rotation);
+#endif
 
             // if (Input.GetButtonDown("Fire1"))
             // {
