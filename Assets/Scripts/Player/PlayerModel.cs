@@ -19,7 +19,9 @@ namespace Player
         public Vector2 Position => _rb.position; // Player's current position
         public float Rotation => _rb.rotation; // Player's current rotation angle
 
-        [SerializeField] private float _speed = 5f; // Movement speed of the player
+
+        [SerializeField] public float _speed = 5f; // Movement speed of the player
+
         //[SerializeField] private float _rotationSpeed = 20f;  // Rotation speed of the player
 
         [SerializeField] private Transform gun1; // Reference to the first gun
@@ -55,6 +57,13 @@ namespace Player
             PlayerHealth = new Health(100);
             _tsc = gameObject.AddComponent<ToggleGOSwitchComponents>();
             gameManager = GameObject.Find("ManagersDDOL").GetComponent<GameManager>();
+#if UNITY_STANDALONE_WIN && UNITY_EDITOR
+            //_speed = 5f;
+#endif
+            
+#if UNITY_ANDROID
+            //_speed = 20f; // Movement speed of the player
+#endif
         }
 
         private void Update()
